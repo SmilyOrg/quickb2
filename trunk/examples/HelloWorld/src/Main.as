@@ -4,6 +4,7 @@ package
 	import flash.display.*;
 	import QuickB2.objects.tangibles.*;
 	import QuickB2.stock.*;
+	import surrender.srVectorGraphics2d;
 	
 	/** 
 	 * Really simple example that pulls in the precompiled QuickB2.swc.
@@ -14,7 +15,7 @@ package
 	{
 		public function Main():void 
 		{
-			var world:qb2World = qb2Stock.newDebugWorld(new amVector2d(0, 10), this.graphics, stage);
+			var world:qb2World = qb2Stock.newDebugWorld(new amVector2d(0, 10), new srVectorGraphics2d(this.graphics), stage);
 			world.start();
 			
 			var circle:qb2CircleShape = qb2Stock.newCircleShape(new amPoint2d(100, 100), 50, 1);

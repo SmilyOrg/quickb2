@@ -15,13 +15,6 @@
   <classpaths>
     <class path="src" />
     <class path="..\..\src" />
-    <class path="..\..\dependencies\src\MinimalComps" />
-    <class path="..\..\dependencies\src\As3Math" />
-    <class path="..\..\dependencies\src\Box2D" />
-    <class path="..\..\extensions\TopDown" />
-    <class path="..\..\dependencies\src\SoundTree" />
-    <class path="..\..\dependencies\src\surRender" />
-    <class path="..\..\dependencies\src\rEvent" />
   </classpaths>
   <!-- Build options -->
   <build>
@@ -57,6 +50,7 @@
   <libraryPaths>
     <element path="lib\greensock.swc" />
     <element path="..\..\dependencies\src\Box2D\Box2DAS\Box2D.swc" />
+    <element path="..\..\src\Box2DAS\Box2D.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>

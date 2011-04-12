@@ -14,6 +14,7 @@
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
     <class path="src" />
+    <class path="..\..\src" />
   </classpaths>
   <!-- Build options -->
   <build>
@@ -48,6 +49,7 @@
   <!-- SWC Libraries -->
   <libraryPaths>
     <element path="..\..\swc\QuickB2.swc" />
+    <element path="..\..\src\Box2DAS\Box2D.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>

@@ -1,1 +1,0 @@
-This folder is a repository for any groups of classes extending from QuickB2 classes that are modular and specialized enough to warrant their own seperate sub-library.  The only extension so far is TopDown, and has classes for managing car physics as well as character control, AI, and other top-down game mechanics.

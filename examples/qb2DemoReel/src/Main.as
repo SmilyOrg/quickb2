@@ -27,7 +27,7 @@
 	 * ...
 	 * @author Doug Koellmer
 	 */
-	[Frame(factoryClass="QuickB2.misc.qb2Preloader")]
+	[Frame(factoryClass="QuickB2.misc.qb2FlashPreloader")]
 	public class Main extends Sprite 
 	{
 		//--- The physics world, kinda like what the stage is for the flash display hierarchy.
@@ -53,8 +53,8 @@
 		//--- All the demo classes to cycle through.
 		private static const demoClasses:Vector.<Class> = Vector.<Class>
 		([
-			Carving, StockSofts, CarDriving, RigidCar, JelloCar, StockRigids, StressTest,
-			EffectFields, Planets, BubblePop, Cup, Actors, ShapeTransformation, Drawing, Joints, Distance
+			Carving, StockSofts, CarDriving, RigidCar, JelloCar,            StockRigids, StressTest, EffectFields,
+			Planets, BubblePop,  Cup,        Actors,   ShapeTransformation, Drawing,     Joints,     Distance
 		]);
 		
 		private var _demos:Vector.<Demo> = new Vector.<Demo>();

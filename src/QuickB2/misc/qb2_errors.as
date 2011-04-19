@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package QuickB2 
+package QuickB2.misc 
 {
 	/**
 	 * Just a central repository for all the runtime errors that QuickB2 throws if you're being naughty.
@@ -58,5 +58,7 @@ package QuickB2
 		public static const NOT_IN_WORLD:Error = new Error("Object must be in-world.");
 		
 		public static const CLONE_ERROR:Error = new Error("This object cannot be cloned.");
+		
+		public static const ILLEGAL_FLAG_ASSIGNMENT:Error = new Error("Attempted to use a flag reserved for internal use.");
 	}
 }

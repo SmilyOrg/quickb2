@@ -55,76 +55,77 @@ package QuickB2.objects.tangibles
 		
 		public function isAncestorOf(possibleDescendant:qb2Object):Boolean
 			{  return possibleDescendant.isDescendantOf(this);  }
+			
+		private static function clone_pushDictUsage():void
+		{
+			if ( !clone_dictUsageTracker )
+			{
+				clone_rigidDict = new Dictionary(false);
+				clone_jointDict = new Dictionary(false);
+			}
+			
+			clone_dictUsageTracker++;
+		}
 		
-		private static var baseClone_joints:Dictionary = null;
-		private static var baseClone_rigids:Dictionary = null;
+		private static function clone_popDictUsage():void
+		{
+			clone_dictUsageTracker--;
+			
+			if ( clone_dictUsageTracker <= 0 )
+			{
+				clone_jointDict = clone_rigidDict = null;
+				clone_dictUsageTracker = 0;
+			}
+		}
+		
+		private static var clone_dictUsageTracker:int = 0;
+		private static var clone_rigidDict:Dictionary;
+		private static var clone_jointDict:Dictionary;
 		
 		public override function clone(deep:Boolean = true):qb2Object
 		{
-			var actorToo:Boolean = true;
-			var deep:Boolean = true;
-			
 			var newContainer:qb2ObjectContainer = super.clone(deep) as qb2ObjectContainer;
 			newContainer.removeAllObjects(); // in case the constructor adds some objects, which it generally shouldn't, but you never know.
-			if ( newContainer is qb2Body )
-			{
-				(newContainer as qb2Body).setTransform(_rigidImp._position.clone(), _rigidImp._rotation);
-			}
-			
+		
 			if ( deep )
 			{
 				var deepCloneBit:uint = qb2_flags.JOINS_IN_DEEP_CLONING;
-				var thisIsCloneRoot:Boolean = false;
-				if ( !baseClone_rigids )
-				{
-					thisIsCloneRoot = true;
-					baseClone_rigids = new Dictionary(true);
-					baseClone_joints = new Dictionary(true);
-				}
 				
-				var propertyFlushAlreadyCancelled:Boolean = cancelPropertyInheritance;
-				cancelPropertyInheritance = true; // this stops all objects being added here from inheriting properties from their ancestors...their properties will be set with qb2Tangible::copyProps(), thus preventing double traversals through the world tree.
+				clone_pushDictUsage();
 				{
-					newContainer.pushEditSession();
+					newContainer._flags |= qb2_flags.IS_DEEP_CLONING; // cancels inheritance of properties for improved performance.
 					{
-						for (var i:int = 0; i < _objects.length; i++) 
+						var numObjects:int = _objects.length;
+						for (var i:int = 0; i < numObjects; i++) 
 						{
-							var object:qb2Object = _objects[i];
+							var ithObject:qb2Object = _objects[i];
 							
-							if ( !(object._flags & deepCloneBit) )  continue;
+							if ( !(ithObject._flags & deepCloneBit) )  continue;
 							
-							if ( object is qb2Tangible )
+							var ithObjectClone:qb2Object = ithObject.clone(deep);
+							newContainer.addObject(ithObjectClone);
+							
+							if ( ithObject as qb2IRigidObject )
 							{
-								var physObject:qb2Tangible = object as qb2Tangible;
-								var clonedObj:qb2Tangible = physObject.clone(deep) as qb2Tangible
-								newContainer.addObject(clonedObj);
-								
-								if ( object is qb2IRigidObject )
-								{
-									baseClone_rigids[physObject] = clonedObj;
-								}
+								clone_rigidDict[ithObject] = ithObjectClone;
 							}
-							else if ( object is qb2Joint )
+							else if ( ithObject as qb2Joint )
 							{
-								var joint:qb2Joint = object as qb2Joint;
-								var clonedJoint:qb2Joint = joint.clone(deep) as qb2Joint
-								newContainer.addObject(clonedJoint);
-								
-								baseClone_joints[joint] = clonedJoint
-							}
-							else
-							{
-								newContainer.addObject(object.clone(deep));
+								clone_jointDict[ithObject] = ithObjectClone;
 							}
 						}
-						
-						for ( var key:* in baseClone_joints )
+					}
+					newContainer._flags &= ~qb2_flags.IS_DEEP_CLONING;
+					
+					if ( clone_dictUsageTracker == 1 ) // (if this was the original object that got cloned...
+					{					
+						for ( var key:* in clone_jointDict )
 						{
-							joint = key as qb2Joint;
-							var clonedObject1:qb2IRigidObject = baseClone_rigids[joint._object1] as qb2IRigidObject;
-							var clonedObject2:qb2IRigidObject = baseClone_rigids[joint._object2] as qb2IRigidObject;
+							var joint:qb2Joint = key as qb2Joint;
+							var clonedObject1:qb2IRigidObject = clone_rigidDict[joint._object1] as qb2IRigidObject;
+							var clonedObject2:qb2IRigidObject = clone_rigidDict[joint._object2] as qb2IRigidObject;
 							
-							clonedJoint = baseClone_joints[joint];
+							var clonedJoint:qb2Joint = clone_jointDict[joint];
 							
 							if ( !clonedJoint._object1 && clonedObject1 )
 								clonedJoint.setObject1(clonedObject1, false);
@@ -133,19 +134,18 @@ package QuickB2.objects.tangibles
 							
 							if ( clonedJoint.hasObjectsSet() )
 							{
-								delete baseClone_joints[joint];
+								delete clone_jointDict[joint];
 							}
 						}
 					}
-					newContainer.popEditSession();
 				}
-				cancelPropertyInheritance = propertyFlushAlreadyCancelled; // if the property flush was already cancelled, presumably by a deep clone of some ancestor, then the cancelled property flush should remain in effect.
-				
-				if ( thisIsCloneRoot )
-				{
-					baseClone_joints = null;
-					baseClone_rigids = null;
-				}
+				clone_popDictUsage();
+			}
+			
+			var asBody:qb2Body = newContainer as qb2Body;
+			if ( newContainer as qb2Body )
+			{
+				asBody.setTransform(_rigidImp._position.clone(), _rigidImp._rotation);
 			}
 			
 			return newContainer;
@@ -168,6 +168,7 @@ package QuickB2.objects.tangibles
 			var booleanFlags:uint = 0;
 			var flagsTaken:uint   = 0;
 			var ancestorPropertyMapStacks:Object = { };
+			var CONTACT_REPORTING_FLAGS:uint = qb2_flags.CONTACT_REPORTING_FLAGS;
 			
 			while ( currParent )
 			{
@@ -183,27 +184,34 @@ package QuickB2.objects.tangibles
 				}
 				
 				//--- Fill in the flags.
-				var flagsThatCouldBeTaken:uint = flagsTaken | currParent._ownershipFlagsForBooleans;
-				var flagsNotYetTaken:uint      = flagsTaken ^ flagsThatCouldBeTaken;
-				booleanFlags |= flagsNotYetTaken & currParent._flags;
-				flagsTaken   |= flagsNotYetTaken;
+				var flagsOwnedByCurrParentThatAreNotYetTaken:uint = currParent._ownershipFlagsForBooleans & ~flagsTaken;
+				booleanFlags |= flagsOwnedByCurrParentThatAreNotYetTaken & currParent._flags;
+				flagsTaken   |= flagsOwnedByCurrParentThatAreNotYetTaken;
+				
+				//--- Contact reporting flags are always filled in.
+				booleanFlags |= currParent._flags & ( CONTACT_REPORTING_FLAGS & currParent._ownershipFlagsForBooleans);
 				
 				currParent = currParent._parent;
 			}
 			
+			flagsTaken &= ~CONTACT_REPORTING_FLAGS;
+			
 			var collection:qb2InternalPropertyAndFlagCollection = new qb2InternalPropertyAndFlagCollection();
-			collection.ancestorFlagOwnershipStack.push(flagsTaken);
-			collection.ancestorFlagStack.push(booleanFlags);
+			collection.booleanOwnershipFlags = flagsTaken;
+			collection.booleanFlags = booleanFlags;
 			collection.ancestorPropertyMapStacks = ancestorPropertyMapStacks;
 			
 			return collection;
 		}
 		
 		private function addMultipleObjectsToArray(someObjects:Vector.<qb2Object>, startIndex:uint):qb2ObjectContainer
-		{			
-			if ( !cancelPropertyInheritance ) // only happens when cloning, where properties don't have to be inherited.
+		{
+			if ( !(this._flags & qb2_flags.IS_DEEP_CLONING) )
 			{
 				var collection:qb2InternalPropertyAndFlagCollection = this.collectAncestorFlagsAndProperties();
+				var propStacks:Object          = collection.ancestorPropertyMapStacks;
+				var booleanFlags:uint          = collection.booleanFlags;
+				var booleanOwnerShipFlags:uint = collection.booleanOwnershipFlags;
 			}
 			
 			var tangibleFound:Boolean = false;
@@ -226,7 +234,7 @@ package QuickB2.objects.tangibles
 					_mass        += tang._mass;
 				}
 				
-				addObjectToArray(object, startIndex, collection);
+				addObjectToArray(object, startIndex, propStacks, booleanFlags, booleanOwnerShipFlags);
 				
 				startIndex++;
 			}
@@ -239,7 +247,7 @@ package QuickB2.objects.tangibles
 			return this;
 		}
 		
-		private function addObjectToArray(object:qb2Object, index:uint, collection:qb2InternalPropertyAndFlagCollection):void
+		private function addObjectToArray(object:qb2Object, index:uint, propStacks:Object, booleanFlags:uint, booleanOwnershipFlags:uint ):void
 		{
 			if ( object._parent )  throw qb2_errors.ALREADY_HAS_PARENT_ERROR;
 			
@@ -256,7 +264,7 @@ package QuickB2.objects.tangibles
 				asTang.addActor();
 			}
 			
-			walkDownTree(object, _world, this._ancestorBody ? this._ancestorBody :  ( this is qb2Body ? this as qb2Body : null), collection, this, true);
+			walkDownTree(object, _world, this._ancestorBody ? this._ancestorBody :  ( this is qb2Body ? this as qb2Body : null), propStacks, booleanFlags, booleanOwnershipFlags, this, true);
 			
 			var evt:qb2ContainerEvent = qb2_cachedEvents.CONTAINER_EVENT.inUse ? new qb2ContainerEvent() : qb2_cachedEvents.CONTAINER_EVENT;
 			evt.type = qb2ContainerEvent.ADDED_OBJECT;
@@ -283,7 +291,7 @@ package QuickB2.objects.tangibles
 				
 				objectRemoved._parent = null;
 				
-				walkDownTree(objectRemoved, _world, null, null, this, false);
+				walkDownTree(objectRemoved, _world, null, null, 0, 0, this, false);
 			}
 			popEditSession();
 			

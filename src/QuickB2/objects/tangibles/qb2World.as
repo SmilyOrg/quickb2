@@ -103,7 +103,8 @@ package QuickB2.objects.tangibles
 		
 		qb2_friend var isLocked:Boolean = false;
 		
-		private const delayedCalls:Vector.<qb2InternalDelayedCall> = new Vector.<qb2InternalDelayedCall>();
+		private const delayedTangCalls:Vector.<qb2InternalDelayedCall>  = new Vector.<qb2InternalDelayedCall>();
+		private const delayedJointCalls:Vector.<qb2InternalDelayedCall> = new Vector.<qb2InternalDelayedCall>();
 		
 		//--- (b2World=>qb2World) Maintains an array of all active worlds, only useful for qb2DebugDrawPanel for the time being.
 		//--- Weak keys allow the world to be garbage collected, and effectively automatically removed from the array.
@@ -183,7 +184,14 @@ package QuickB2.objects.tangibles
 				(object as qb2Shape).flaggedForDestroy = true; // shape won't send any more contact events in this pass.
 			}
 			
-			delayedCalls.push(delayedCall);
+			if ( object as qb2Joint )
+			{
+				delayedJointCalls.push(delayedCall);
+			}
+			else
+			{
+				delayedTangCalls.push(delayedCall);
+			}
 		}
 
 		/** If set, objects in the world will be drawn to the context according to the values in qb2_debugDrawSettings.
@@ -466,42 +474,15 @@ package QuickB2.objects.tangibles
 			
 			//--- Go through the changes made by the user to the physics world (if any) inside contact callbacks.
 			//--- These are delayed until now because changing things in the middle of a timestep is not allowed in Box2D.
-			for ( var i:int = 0; i < delayedCalls.length; i++ )
+			for ( var i:int = 0; i < delayedTangCalls.length; i++ )
 			{
-				var delayedCall:qb2InternalDelayedCall = delayedCalls[i];
-				
-				var makeTheCall:Boolean = true; // the call isn't made if it appears it is for destroying a box2d object that was already destroyed implicitly.
-				var object:qb2Object = delayedCall.object;
-				var args:Array = delayedCall.args;
-				
-				if ( object is qb2Shape )
-				{
-					(object as qb2Shape).flaggedForDestroy = false;
-					
-					if ( args[0] is b2Fixture)
-					{
-						makeTheCall = (args[0] as b2Fixture).GetBody().m_fixtureCount > 0;
-					}
-				}
-				else if ( object is qb2Joint )
-				{
-					if ( args[0] is b2Joint )
-					{
-						makeTheCall = (args[0] as b2Joint).m_userData != qb2InternalDestructionListener.JOINT_DESTROYED_IMPLICITLY;
-					}
-				}
-				
-				if ( makeTheCall )
-				{
-					delayedCall.closure.apply(null, args);
-				}
-					
-				/*if ( object is qb2Tangible && (object as qb2Tangible)._bodyB2 )
-				{
-					//(object as qb2Tangible)._rigidImp.recomputeBodyB2Mass();
-				}*/
+				processDelayedCall(delayedTangCalls[i]);
 			}
-			delayedCalls.length = 0;
+			for ( i = 0; i < delayedJointCalls.length; i++ )
+			{
+				processDelayedCall(delayedJointCalls[i]);
+			}
+			delayedTangCalls.length = delayedJointCalls.length = 0;
 			
 			update();
 			
@@ -519,6 +500,35 @@ package QuickB2.objects.tangibles
 				postEvent.type = qb2UpdateEvent.POST_UPDATE;
 				postEvent._object = dispatcher;
 				dispatcher.dispatchEvent(postEvent);
+			}
+		}
+		
+		private static function processDelayedCall(delayedCall:qb2InternalDelayedCall):void
+		{				
+			var makeTheCall:Boolean = true; // the call isn't made if it appears it is for destroying a box2d object that was already destroyed implicitly.
+			var object:qb2Object = delayedCall.object;
+			var args:Array = delayedCall.args;
+			
+			if ( object is qb2Shape )
+			{
+				(object as qb2Shape).flaggedForDestroy = false;
+				
+				if ( args[0] is b2Fixture)
+				{
+					makeTheCall = (args[0] as b2Fixture).GetBody().m_fixtureCount > 0;
+				}
+			}
+			else if ( object is qb2Joint )
+			{
+				if ( args[0] is b2Joint )
+				{
+					makeTheCall = (args[0] as b2Joint).m_userData != qb2InternalDestructionListener.JOINT_DESTROYED_IMPLICITLY;
+				}
+			}
+			
+			if ( makeTheCall )
+			{
+				delayedCall.closure.apply(null, args);
 			}
 		}
 		

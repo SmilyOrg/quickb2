@@ -59,10 +59,13 @@ package QuickB2.misc
 		public static const ALLOW_COMPLEX_POLYGONS:uint      = 0x00040000;
 		
 		// for internal use only
-		qb2_friend static const REPORTS_CONTACT_STARTED:uint = 0x00080000;
-		qb2_friend static const REPORTS_CONTACT_ENDED:uint   = 0x00100000;
-		qb2_friend static const REPORTS_PRE_SOLVE:uint       = 0x00200000;
-		qb2_friend static const REPORTS_POST_SOLVE:uint      = 0x00400000;
-		qb2_friend static const CONTACT_REPORTING_BITS:uint = REPORTS_CONTACT_STARTED | REPORTS_CONTACT_ENDED | REPORTS_PRE_SOLVE | REPORTS_POST_SOLVE;
+		qb2_friend static const IS_DEEP_CLONING:uint         = 0x08000000;
+		qb2_friend static const REPORTS_CONTACT_STARTED:uint = 0x10000000;
+		qb2_friend static const REPORTS_CONTACT_ENDED:uint   = 0x20000000;
+		qb2_friend static const REPORTS_PRE_SOLVE:uint       = 0x40000000;
+		qb2_friend static const REPORTS_POST_SOLVE:uint      = 0x80000000;
+		qb2_friend static const CONTACT_REPORTING_FLAGS:uint = REPORTS_CONTACT_STARTED | REPORTS_CONTACT_ENDED |
+		                                                       REPORTS_PRE_SOLVE       | REPORTS_POST_SOLVE    ;
+		qb2_friend static const RESERVED_FLAGS:uint          = IS_DEEP_CLONING | CONTACT_REPORTING_FLAGS;
 	}
 }

@@ -35,7 +35,7 @@ package QuickB2.misc
 	 * 
 	 * @author Doug Koellmer
 	 */
-	public class qb2Preloader extends MovieClip
+	public class qb2FlashPreloader extends MovieClip
 	{
 		private var _upperLeft:amPoint2d = new amPoint2d();
 		private var _loadingBar:ProgressBar = new ProgressBar();
@@ -47,7 +47,7 @@ package QuickB2.misc
 		
 		public var autoRemove:Boolean = true;
 		
-		public function qb2Preloader() 
+		public function qb2FlashPreloader() 
 		{
 			_singleton = this;
 			
@@ -84,9 +84,9 @@ package QuickB2.misc
 			updateText(loadingText + "0%");
 		}
 		
-		public static function get singleton():qb2Preloader
+		public static function get singleton():qb2FlashPreloader
 			{  return _singleton;  }
-		private static var _singleton:qb2Preloader = null;
+		private static var _singleton:qb2FlashPreloader = null;
 		
 		private function stageResized(evt:Event):void
 		{			

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010 Johnson Center for Simulation at Pine Technical College
+ * Copyright (c) 2011 Doug Koellmer
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,18 +20,16 @@
  * THE SOFTWARE.
  */
 
-package QuickB2.internals 
+package QuickB2.misc 
 {
 	/**
-	 * ...
-	 * @author Doug Koellmer
+	 * A collections of warnings that get traced to the console in debug mode.
 	 * 
-	 * @private
+	 * @author Doug Koellmer
 	 */
-	public class qb2InternalPropertyAndFlagCollection 
+	public class qb2_warnings 
 	{
-		public var booleanFlags:uint                = 0;
-		public var booleanOwnershipFlags:uint       = 0;
-		public var ancestorPropertyMapStacks:Object = null;
+		
+		
 	}
 }

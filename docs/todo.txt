@@ -4,9 +4,25 @@
 
 - interface for keyboard/mouse input.
 
-- push/pop fill for srGraphics2d?
+- push/pop fill for srGraphics2d? (and make srIGraphics2d)
 
 - merge update and debug draw loop (move JOINS_IN_DEBUG_DRAWING checking to update loop too, and make direct calls to drawDebug for container work).
+
+- merge TopDown, As3Math and surRender into QuickB2 directly
+
+- once qb2ISound is done up, have a parameter for a qb2Tangible to play a sound when it gets hit
+
+- use dirty flags for everything (?)
+
+- make terrain work the same way as qb2Effect as regards ubiquity.
+
+- make sure removeAllEventListeners() works.
+
+- add qb2Flash, qb2_, get/set/is, qb2Internal, qb2I, conventions to manual
+
+- make sure density is preserved in slicing
+
+- getRotation/position for soft body
 
 
 
@@ -29,8 +45,6 @@
 - make laser smoother
 
 - fix .swc so qb2_friend members aren't exposed.
-
-- convert qb2_props.IS_KINEMATIC to qb2_prop_isKinematic...maybe
 
 
 TESTING
@@ -98,8 +112,6 @@ TESTING
 - have box2d git thing be pulled in automatically
 
 - fix elbow joints for qb2Stock polyline body...give them limits so they don't tweek out in extreme situations.
-
-- more robust/extendable draw system, where insetad of Graphics, it's qb2IDrawable, so you can render things however u want by implementing an interface
 
 
 

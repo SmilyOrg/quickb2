@@ -110,23 +110,86 @@ package QuickB2.objects
 			}
 			else
 			{
-				/*var asTang:qb2Tangible = this as qb2Tangible;
+				var asTang:qb2Tangible = this as qb2Tangible;
 				
 				if ( asTang )
 				{
-					var allContactTypes:Array = qb2BaseContactEvent.ALL_EVENT_TYPES;
-					var allReportingBits:Vector.<uint> = qb2BaseContactEvent.REPORTING_BITS;
-					var numContactTypes:int = allContactTypes.length;
+					var concernsContactListening:Boolean = false;
+					var doubledArray:Vector.<Array> = qb2BaseContactEvent.DOUBLED_ARRAY;
 					
-					var reportingFlags:uint = 0;
-					
-					for (var i:int = 0; i < numContactTypes; i++) 
+					for (var i:int = 0; i < 4; i++) 
 					{
-						if( evt.concernsType
+						if ( evt.concernsTypes(doubledArray[i]) )
+						{
+							var reportingBit:uint = REPORTING_BITS[i];
+							concernsContactListening = true;
+							
+							if ( eventTypesAdded )
+							{
+								//this._flags                     |=  reportingBit;
+								this._ownershipFlagsForBooleans |=  reportingBit;
+							}
+							else
+							{
+								//this._flags                     &= ~reportingBit;
+								this._ownershipFlagsForBooleans &= ~reportingBit;
+							}
+						}
 					}
-				}*/
+					
+					if ( concernsContactListening )
+					{
+						var CONTACT_REPORTING_FLAGS:uint = qb2_flags.CONTACT_REPORTING_FLAGS;
+						var currParent:qb2ObjectContainer = this._parent;
+						var flagsToSendDown:uint = 0;
+						while ( currParent )
+						{
+							flagsToSendDown |= currParent._flags & (CONTACT_REPORTING_FLAGS & currParent._ownershipFlagsForBooleans);
+							
+							currParent = currParent._parent;
+						}
+						
+						updateContactReportingFlags(flagsToSendDown);
+					}
+				}
 			}
 		}
+		
+		qb2_friend function updateContactReportingFlags(flags:uint):void
+		{
+			var asContainer:qb2ObjectContainer = this as qb2ObjectContainer;
+			var CONTACT_REPORTING_FLAGS:uint = qb2_flags.CONTACT_REPORTING_FLAGS;
+			
+			var oldFlags:uint = this._flags;
+			
+			this._flags &= ~CONTACT_REPORTING_FLAGS;
+			this._flags |=  CONTACT_REPORTING_FLAGS & flags;
+			this._flags |=  CONTACT_REPORTING_FLAGS & this._ownershipFlagsForBooleans;
+			
+			flags       |=  CONTACT_REPORTING_FLAGS & this._flags;
+			
+			if ( asContainer )
+			{
+				for (var i:int = 0; i < asContainer._objects.length; i++) 
+				{
+					asContainer._objects[i].updateContactReportingFlags(flags);
+				}
+			}
+			else
+			{
+				var asShape:qb2Shape = this as qb2Shape;
+				if ( asShape )
+				{
+					asShape.flagsChanged(oldFlags ^ this._flags);
+				}
+			}
+		}
+		
+		qb2_friend static const REPORTING_BITS:Vector.<uint> = Vector.<uint>
+		([
+			qb2_flags.REPORTS_CONTACT_STARTED, qb2_flags.REPORTS_CONTACT_ENDED, qb2_flags.REPORTS_PRE_SOLVE, qb2_flags.REPORTS_POST_SOLVE
+		]);
+		
 		
 		qb2_friend var _ownershipFlagsForProperties:uint = 0;
 		qb2_friend var _ownershipFlagsForBooleans:uint   = 0;
@@ -166,6 +229,11 @@ package QuickB2.objects
 		 */
 		public final function setFlag(bool:Boolean, flagOrFlags:uint, takeOwnership:Boolean = true):qb2Object
 		{
+			if ( flagOrFlags & qb2_flags.RESERVED_FLAGS )
+			{
+				throw qb2_errors.ILLEGAL_FLAG_ASSIGNMENT;
+			}
+			
 			var oldFlags:uint = _flags;
 			
 			if ( bool )
@@ -181,8 +249,8 @@ package QuickB2.objects
 			
 			if ( !takeOwnership )
 			{
-				/*var ownershipFlagsThatWillBeWiped:uint = flagOrFlags & _ownershipFlagsForBooleans;
-				var flagsTaken:uint = 0;
+				/*var ownershipFlagsThatWillBeCleared:uint = flagOrFlags & _ownershipFlagsForBooleans;
+				var flagsOwnedByAncestors:uint = 0;
 				
 				if ( ownershipFlagsThatWillBeWiped )
 				{
@@ -190,18 +258,16 @@ package QuickB2.objects
 					
 					while ( currParent )
 					{
-						var flagsThatCouldBeTaken:uint = flagsTaken | (ownershipFlagsThatWillBeWiped & currParent._ownershipFlagsForBooleans);
-						var flagsNotYetTaken:uint = flagsTaken ^ flagsThatCouldBeTaken;
-						_flags     |= flagsNotYetTaken & currParent._flags;
-						flagsTaken |= flagsNotYetTaken;
+						var allFlagsOwnedByCurrParentPlusPreviousAncestors:uint = flagsOwnedByAncestors | (ownershipFlagsThatWillBeCleared & currParent._ownershipFlagsForBooleans);
+						var flagsOwnedByCurrParentThatAreNotYetTaken:uint = flagsOwnedByAncestors ^ allFlagsOwnedByCurrParentPlusPreviousAncestors;
+						_flags     |= flagsOwnedByCurrParentThatAreNotYetTaken & currParent._flags;
+						flagsOwnedByAncestors |= flagsOwnedByCurrParentThatAreNotYetTaken;
 						
 						currParent = currParent._parent;
 					}
 				}
 				
 				_ownershipFlagsForBooleans &= ~flagOrFlags;
-				
-				var flagsThatChanged:uint = oldFlags ^ _flags;
 				
 				flagsChanged(oldFlags ^ _flags);
 				
@@ -210,12 +276,12 @@ package QuickB2.objects
 					var asContainer:qb2ObjectContainer = this as qb2ObjectContainer;
 					if ( asContainer )
 					{
-						cascadeFlags(asContainer, flagsTaken & flagOrFlags);
+						cascadeOwnedFlags(asContainer, flagsOwnedByAncestors & flagOrFlags);
 					}
 				}*/
 				
 				_ownershipFlagsForBooleans &= ~flagOrFlags;
-				flagsChanged( oldFlags ^ _flags );
+				flagsChanged(oldFlags ^ _flags);
 			}
 			else
 			{
@@ -224,7 +290,7 @@ package QuickB2.objects
 				
 				if ( asContainer )
 				{
-					cascadeFlags(asContainer, flagOrFlags);
+					cascadeOwnedFlags(asContainer, flagOrFlags);
 				}
 			}
 			
@@ -339,7 +405,12 @@ package QuickB2.objects
 			}
 		}
 		
-		private static function cascadeFlags(root:qb2ObjectContainer, affectedFlags:uint):void
+		private static function cascadeGatedFlags(root:qb2ObjectContainer, affectedFlags:uint):void
+		{
+			
+		}
+		
+		private static function cascadeOwnedFlags(root:qb2ObjectContainer, affectedFlags:uint):void
 		{
 			var queue:Vector.<qb2Object> = new Vector.<qb2Object>();
 			var numObjects:int = root.numObjects
@@ -348,20 +419,21 @@ package QuickB2.objects
 				queue.push(root._objects[i]);
 			}
 			
-			var rootFlags:uint = root._flags;
+			var rootsFlags:uint = root._flags;
 			while ( queue.length )
 			{
 				var subObject:qb2Object = queue.shift();
 				
-				var oldFlags:uint = subObject._flags;
+				var subObjectsOldFlags:uint = subObject._flags;
 				
 				//--- This sub-object loses ownership of this property...it is now considered "inherited" from the root.
 				subObject._ownershipFlagsForBooleans &= ~affectedFlags;
 				
+				//--- Clear the subobjects flags using affectedFlags, then reset them using affectedFlags as the filter.
 				subObject._flags &= ~affectedFlags;
-				subObject._flags |=  affectedFlags & rootFlags;
+				subObject._flags |=  affectedFlags & rootsFlags;
 				
-				subObject.flagsChanged(oldFlags ^ subObject._flags);
+				subObject.flagsChanged(subObjectsOldFlags ^ subObject._flags);
 				
 				if ( subObject is qb2ObjectContainer )
 				{
@@ -403,8 +475,6 @@ package QuickB2.objects
 			{  return _flags & qb2_flags.JOINS_IN_UPDATE_CHAIN ? true : false;  }
 		public function set joinsInUpdateChain(bool:Boolean):void
 			{  setFlag(bool, qb2_flags.JOINS_IN_UPDATE_CHAIN, false);  }
-		
-		qb2_friend static var cancelPropertyInheritance:Boolean = false; // this is invoked by clone functions to cancel the property flow
 		
 		protected virtual function propertyChanged(propertyName:String):void {}
 		
@@ -595,7 +665,7 @@ package QuickB2.objects
 		qb2_friend function relay_update():void
 			{  update();  }
 		
-		qb2_friend static function walkDownTree(theObject:qb2Object, theWorld:qb2World, theAncestorBody:qb2Body, theCollection:qb2InternalPropertyAndFlagCollection, theAncestor:qb2ObjectContainer, adding:Boolean):void
+		qb2_friend static function walkDownTree(theObject:qb2Object, theWorld:qb2World, theAncestorBody:qb2Body, propStacks:Object, booleanFlags:uint, booleanOwnershipFlags:uint, theAncestor:qb2ObjectContainer, adding:Boolean):void
 		{
 			//--- (1) Set the ancestor body for object.
 			var asTang:qb2Tangible = theObject as qb2Tangible
@@ -614,18 +684,19 @@ package QuickB2.objects
 			}
 			
 			//--- (2) Propagate the values of properties and flags that are owned by ancestors and not owned by theObject.
-			if ( adding && theCollection )
+			var CONTACT_REPORTING_FLAGS:uint = qb2_flags.CONTACT_REPORTING_FLAGS;
+			if ( adding && propStacks )
 			{
 				//--- (2a) Propagate properties.
 				var redundantProps:Vector.<String> = null;
-				var ancestorPropertyMapStacks:Object = theCollection.ancestorPropertyMapStacks;
-				for ( var propertyName:String in ancestorPropertyMapStacks )
+				for ( var propertyName:String in propStacks )
 				{
-					var propertyMapStack:Array = ancestorPropertyMapStacks[propertyName];
+					var propertyMapStack:Array = propStacks[propertyName];
 					
 					if ( theObject._ownershipFlagsForProperties & _propertyBits[propertyName] )
 					{
 						if ( !redundantProps )  redundantProps = new Vector.<String>();
+						redundantProps.push(propertyName);
 						propertyMapStack.push( theObject._propertyMap[propertyName] );
 					}
 					else
@@ -636,25 +707,15 @@ package QuickB2.objects
 					}
 				}
 				
-				//--- (2b) Propagate flags.
-				var ancestorFlags:uint = theCollection.ancestorFlagStack[theCollection.ancestorFlagStack.length - 1];
-				var ancestorOwnershipFlags:uint = theCollection.ancestorFlagOwnershipStack[theCollection.ancestorFlagOwnershipStack.length - 1];
-				var ancestorOwnershipFlagsToBePushed:uint = ancestorOwnershipFlags & ~theObject._ownershipFlagsForBooleans;
-				var ancestorFlagsToBePushed:uint = theObject._flags & ~ancestorOwnershipFlagsToBePushed;
-				ancestorFlagsToBePushed |= ancestorOwnershipFlagsToBePushed & ancestorFlags;
-				var flagsAffected:uint = ancestorFlagsToBePushed ^ theObject._flags;
-				if ( flagsAffected )
-				{
-					theObject._flags = ancestorFlagsToBePushed;
-					theObject.flagsChanged(flagsAffected);
-				}
-			}
-			else
-			{
-				if ( !theCollection )
-				{
-					theCollection = new qb2InternalPropertyAndFlagCollection();
-				}
+				booleanOwnershipFlags   &= ~theObject._ownershipFlagsForBooleans;
+				theObject._flags        &= ~booleanOwnershipFlags;
+				theObject._flags        |=  booleanOwnershipFlags & booleanFlags;
+				
+				theObject._flags        &= ~CONTACT_REPORTING_FLAGS;
+				theObject._flags        |=  CONTACT_REPORTING_FLAGS & booleanFlags;
+				theObject._flags        |=  CONTACT_REPORTING_FLAGS & theObject._ownershipFlagsForBooleans;
+				
+				booleanFlags            |=  CONTACT_REPORTING_FLAGS & theObject._flags;
 			}
 			
 			//--- (3) Process added-to-world-type stuff if applicable.
@@ -709,23 +770,11 @@ package QuickB2.objects
 			var asContainer:qb2ObjectContainer = theObject as qb2ObjectContainer;
 			if ( asContainer )
 			{
-				if ( adding && theCollection )
-				{
-					theCollection.ancestorFlagStack.push(ancestorFlagsToBePushed);
-					theCollection.ancestorFlagOwnershipStack.push(ancestorOwnershipFlagsToBePushed);
-				}
-				
 				var num:int = asContainer._objects.length;
 				for (var i:int = 0; i < num; i++) 
 				{
 					var ithObject:qb2Object = asContainer._objects[i];
-					walkDownTree(ithObject, theWorld, theAncestorBody, theCollection, theAncestor, adding);
-				}
-				
-				if ( adding && theCollection )
-				{
-					theCollection.ancestorFlagStack.pop();
-					theCollection.ancestorFlagOwnershipStack.pop();
+					walkDownTree(ithObject, theWorld, theAncestorBody, propStacks, booleanFlags, booleanOwnershipFlags, theAncestor, adding);
 				}
 			}
 			
@@ -739,7 +788,7 @@ package QuickB2.objects
 			{
 				for ( i = 0; i < redundantProps.length; i++ )
 				{
-					propertyMapStack = ancestorPropertyMapStacks[redundantProps[i]];
+					propertyMapStack = propStacks[redundantProps[i]];
 					propertyMapStack.pop();
 				}
 			}
@@ -757,13 +806,13 @@ package QuickB2.objects
 		
 		qb2_friend function makeWrapper(theWorld:qb2World):void
 		{
-			if ( theWorld && shouldMake() )
+			if ( theWorld )
 			{
 				if ( theWorld.isLocked )
 				{
 					theWorld.addDelayedCall(this, makeWrapper, theWorld);
 				}
-				else
+				else if( shouldMake() )
 				{
 					make(theWorld);
 				}
@@ -772,13 +821,13 @@ package QuickB2.objects
 		
 		qb2_friend function destroyWrapper(theWorld:qb2World):void
 		{
-			if ( theWorld && shouldDestroy() )
+			if ( theWorld )
 			{
 				if ( theWorld.isLocked )
 				{
 					theWorld.addDelayedCall(this, destroyWrapper, theWorld);
 				}
-				else
+				else if( shouldDestroy() )
 				{
 					destroy(theWorld);
 				}
@@ -813,6 +862,10 @@ package QuickB2.objects
 		
 		qb2_friend function copyPropertiesAndFlags(source:qb2Object):void
 		{
+			//--- Save previous flags.
+			var savedBooleanFlags:uint = this._flags;
+			var savedBooleanOwnershipFlags:uint = this._ownershipFlagsForBooleans;
+			
 			//--- Copy ownership of flags/properties.
 			this._ownershipFlagsForBooleans   = source._ownershipFlagsForBooleans;
 			this._ownershipFlagsForProperties = source._ownershipFlagsForProperties;
@@ -823,6 +876,14 @@ package QuickB2.objects
 			{
 				this._propertyMap[key] = source._propertyMap[key];
 			}
+			
+			//--- Always keep original flags for contact reporting, because these
+			//--- are based on event listeners attached to the object.
+			var CONTACT_REPORTING_FLAGS:uint = qb2_flags.CONTACT_REPORTING_FLAGS;
+			this._ownershipFlagsForBooleans &= ~CONTACT_REPORTING_FLAGS;
+			this._flags                     &= ~CONTACT_REPORTING_FLAGS;
+			this._ownershipFlagsForBooleans |=  CONTACT_REPORTING_FLAGS & savedBooleanOwnershipFlags;
+			this._flags                     |=  CONTACT_REPORTING_FLAGS & savedBooleanFlags;
 		}
 		
 		/**

@@ -134,11 +134,11 @@ package QuickB2.objects.tangibles
 		
 		qb2_friend function editSessionStarted():void
 		{
-			if ( _bodyB2 )
+			if ( !_ancestorBody && _rigidImp )
 			{
 				_rigidImp.freezeBodyB2();
 			}
-			else if( _ancestorBody && _ancestorBody._bodyB2 )
+			else if( _ancestorBody )
 			{
 				_ancestorBody._rigidImp.freezeBodyB2();
 			}
@@ -177,10 +177,10 @@ package QuickB2.objects.tangibles
 				
 				if ( currParent.inEditingSession )  return;
 				
-				if ( currParent._bodyB2 )
+				if ( !currParent._ancestorBody && currParent._rigidImp )
 				{
 					currParent._rigidImp.recomputeBodyB2Mass();
-					currParent._bodyB2.SetAwake(true);
+					currParent.wakeUp();
 				}
 				
 				var dispatch:Boolean = true;
@@ -249,7 +249,7 @@ package QuickB2.objects.tangibles
 		{
 			var cloned:qb2Tangible = super.clone(deep) as qb2Tangible;
 			
-			cloned.copyTangibleProps(this);
+			cloned.copyTangibleProps(this, false);
 			
 			if ( deep && _actor )
 			{

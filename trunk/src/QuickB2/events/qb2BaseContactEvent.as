@@ -29,6 +29,7 @@ package QuickB2.events
 	import Box2DAS.Dynamics.b2World;
 	import Box2DAS.Dynamics.Contacts.*;
 	import QuickB2.*;
+	import QuickB2.misc.qb2_errors;
 	import QuickB2.misc.qb2_flags;
 	import QuickB2.objects.tangibles.qb2World;
 	import revent.rEvent;
@@ -61,11 +62,7 @@ package QuickB2.events
 		public static const PRE_SOLVE_TYPES:Array  = [ PRE_SOLVE,       SUB_PRE_SOLVE       ];
 		public static const POST_SOLVE_TYPES:Array = [ POST_SOLVE,      SUB_POST_SOLVE      ];
 		
-		qb2_friend static const REPORTING_BITS:Vector.<uint> = Vector.<uint>
-		([
-			qb2_flags.REPORTS_PRE_SOLVE, qb2_flags.REPORTS_POST_SOLVE, qb2_flags.REPORTS_CONTACT_STARTED, qb2_flags.REPORTS_CONTACT_ENDED,
-			qb2_flags.REPORTS_PRE_SOLVE, qb2_flags.REPORTS_POST_SOLVE, qb2_flags.REPORTS_CONTACT_STARTED, qb2_flags.REPORTS_CONTACT_ENDED
-		]);
+		qb2_friend static const DOUBLED_ARRAY:Vector.<Array> = Vector.<Array>([STARTED_TYPES, ENDED_TYPES, PRE_SOLVE_TYPES, POST_SOLVE_TYPES]);
 		
 		public function qb2BaseContactEvent(type:String = null)
 		{

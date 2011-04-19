@@ -24,6 +24,7 @@ package TopDown.objects
 {
 	import QuickB2.*;
 	import QuickB2.events.qb2ContainerEvent;
+	import QuickB2.misc.qb2_errors;
 	import QuickB2.objects.*;
 	import QuickB2.objects.tangibles.*;
 	import TopDown.*;
@@ -41,6 +42,11 @@ package TopDown.objects
 		public const brainPort:tdBrainPort = new tdBrainPort();
 		
 		public function tdSmartBody()
+		{
+			init();
+		}
+		
+		private function init():void
 		{
 			if ( Object(this).constructor == tdSmartBody )
 			{

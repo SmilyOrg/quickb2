@@ -201,21 +201,16 @@ package QuickB2.objects.tangibles
 			
 			return this;
 		}
-			
+
 		public override function clone(deep:Boolean = true):qb2Object
 		{
-			var actorToo:Boolean = true;
-			var deep:Boolean = true;
-			
 			var newPolyShape:qb2PolygonShape = super.clone(deep) as qb2PolygonShape;
 			newPolyShape._rigidImp._rotation = _rigidImp._rotation;
 			newPolyShape._closed = this._closed;
 			newPolyShape._rigidImp._position.copy(_rigidImp._position);
 			
-			if ( deep )
-			{
-				newPolyShape.set(polygon.asPoints(), _rigidImp._position.clone());
-			}
+			newPolyShape.set(polygon.asPoints(), _rigidImp._position.clone());
+			newPolyShape.mass = this.mass;
 			
 			return newPolyShape;
 		}

@@ -264,11 +264,11 @@
 							var index1:uint = lthIntFlags >> 16;
 							var index2:uint = lthPlusOneIntFlags >> 16;
 							
-							var index1IsVertexInt:Boolean = lthIntFlags & am_intersectionFlags.CURVE_TO_POINT ? true : false;
+							var index1IsVertexInt:Boolean = lthIntFlags        & am_intersectionFlags.CURVE_TO_POINT ? true : false;
 							var index2IsVertexInt:Boolean = lthPlusOneIntFlags & am_intersectionFlags.CURVE_TO_POINT ? true : false;
 							
 							var newPoly:qb2PolygonShape = new qb2PolygonShape();
-							newPoly.copyTangibleProps(asPoly);
+							//newPoly.copyTangibleProps(asPoly);
 							newPoly.copyPropertiesAndFlags(asPoly);
 							toReturn.push(newPoly);
 							

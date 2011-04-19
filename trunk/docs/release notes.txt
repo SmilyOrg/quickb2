@@ -6,7 +6,7 @@
 
 - added several more demos to qb2DemoReel to showcase new features, and cleaned up some of the code so that people can more easily copy/paste from demo source if so inclined.
 
-- lots of minor optimizations and some bug fixes...internally spread some code around in an attempt to have qb2Tangible be less than like 1000 lines
+- lots of minor optimizations and bug fixes...internally spread some code around in an attempt to have qb2Tangible be less than like 1000 lines
 
 - created a qb2ContactFilter class to wrap up all qb2Tangible member properties having to do with contact filtering
 
@@ -24,6 +24,9 @@
 
 - merged the update() and debugDraw() tree passes into one pass for much more efficiency.
 
+- major file/folder restructuring, so that you can bring in all QuickB2 code and dependencies just by adding the QuickB2/src classpath to your project...I really don't know why I didn't do this before.
+
+- implemented a more classical C++-style standard for getter and setter functions, e.g. "public function getFriction():Number" instead of "public function get friction():Number...several advantages to this exist...(1) easier to find the function you're looking for with an IDE's autocomplete, (2) more copy/paste-portable if QuickB2 ever gets ported to other languages, (3) more consistent and readable API.
 
 
 1/13/2011  (version 0.6)

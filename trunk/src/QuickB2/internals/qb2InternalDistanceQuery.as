@@ -11,6 +11,7 @@ package QuickB2.internals
 	import Box2DAS.Common.XF;
 	import Box2DAS.Dynamics.b2Fixture;
 	import QuickB2.*;
+	import QuickB2.misc.qb2_errors;
 	import QuickB2.objects.qb2Object;
 	import QuickB2.objects.tangibles.qb2ObjectContainer;
 	import QuickB2.objects.tangibles.qb2Shape;

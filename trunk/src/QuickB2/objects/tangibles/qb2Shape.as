@@ -55,9 +55,6 @@ package QuickB2.objects.tangibles
 		
 		qb2_friend var flaggedForDestroy:Boolean = false;
 		
-		qb2_friend static const CONTACT_REPORTING_FLAGS:uint = qb2_flags.REPORTS_CONTACT_STARTED   | qb2_flags.REPORTS_CONTACT_ENDED |
-															   qb2_flags.REPORTS_PRE_SOLVE         | qb2_flags.REPORTS_POST_SOLVE    ;
-		
 		public function qb2Shape()
 		{
 			super();
@@ -212,7 +209,7 @@ package QuickB2.objects.tangibles
 					this.fixtures[i].SetSensor(isAGhost);
 				}
 			}
-			else if ( affectedFlags & CONTACT_REPORTING_FLAGS )
+			else if ( affectedFlags & qb2_flags.CONTACT_REPORTING_FLAGS )
 			{
 				for ( i = 0; i < shapeB2s.length; i++ )
 				{
@@ -384,10 +381,10 @@ package QuickB2.objects.tangibles
 				fixtures.push(body.CreateFixture(fixtureDef));
 				fixtures[i].SetUserData(this);
 				
-				fixtures[i].m_reportBeginContact = true;// _flags & qb2_flags.REPORTS_CONTACT_STARTED    ? true : false;
-				fixtures[i].m_reportEndContact   = true;// _flags & qb2_flags.REPORTS_CONTACT_ENDED      ? true : false;
-				fixtures[i].m_reportPreSolve     = true;// _flags & qb2_flags.REPORTS_CONTACT_PRE_SOLVE  ? true : false;
-				fixtures[i].m_reportPostSolve    = true;// _flags & qb2_flags.REPORTS_CONTACT_POST_SOLVE ? true : false;
+				fixtures[i].m_reportBeginContact = _flags & qb2_flags.REPORTS_CONTACT_STARTED ? true : false;
+				fixtures[i].m_reportEndContact   = _flags & qb2_flags.REPORTS_CONTACT_ENDED   ? true : false;
+				fixtures[i].m_reportPreSolve     = _flags & qb2_flags.REPORTS_PRE_SOLVE       ? true : false;
+				fixtures[i].m_reportPostSolve    = _flags & qb2_flags.REPORTS_POST_SOLVE      ? true : false;
 			}
 			
 			theWorld._terrainRevisionDict[this]  = 0 as int;

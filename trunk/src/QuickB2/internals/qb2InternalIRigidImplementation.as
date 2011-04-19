@@ -160,12 +160,16 @@ package QuickB2.internals
 		
 		qb2_friend function freezeBodyB2():void
 		{
-			var theWorld:qb2World = qb2World.worldDict[_bodyB2.m_world] as qb2World;
+			var theWorld:qb2World = _tang.world;
+			if ( !theWorld )  return;
+			
 			if ( theWorld.isLocked )
 			{
 				theWorld.addDelayedCall(null, freezeBodyB2);
 				return;
 			}
+			
+			if ( !_bodyB2 )  return;
 			
 			if ( _bodyB2.m_type == b2Body.b2_staticBody )  return;
 			
@@ -180,12 +184,15 @@ package QuickB2.internals
 		{
 			//--- Box2D gets pissed sometimes if you change a body from dynamic to static/kinematic within a contact callback.
 			//--- So whenever this happen's the call is delayed until after the physics step, which shouldn't affect the simulation really.
-			var theWorld:qb2World = qb2World.worldDict[_bodyB2.m_world] as qb2World;
+			var theWorld:qb2World = _tang.world;
+			if ( !theWorld )  return;
 			if ( theWorld.isLocked )
 			{
 				theWorld.addDelayedCall(null, this.recomputeBodyB2Mass);
 				return;
 			}
+			
+			if ( !_bodyB2 )  return;
 			
 			var thisIsKinematic:Boolean = _tang.isKinematic;			
 			

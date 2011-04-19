@@ -23,6 +23,7 @@
 package TopDown.ai.controllers 
 {	
 	import QuickB2.*;
+	import QuickB2.misc.qb2_errors;
 	import TopDown.*;
 	import TopDown.ai.*;
 	import TopDown.ai.brains.*;

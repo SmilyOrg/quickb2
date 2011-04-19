@@ -67,6 +67,7 @@ package QuickB2.objects.tangibles
 			
 			var newCircleShape:qb2CircleShape = super.clone(deep) as qb2CircleShape;
 			newCircleShape.set(_rigidImp._position.clone(), _radius, _rigidImp._rotation);
+			newCircleShape.mass = this.mass;
 
 			return newCircleShape;
 		}
@@ -78,7 +79,8 @@ package QuickB2.objects.tangibles
 			var poly:qb2PolygonShape = qb2Stock.newEllipseShape(_rigidImp._position.clone(), majorAxis, _radius, numSides);
 			poly._rigidImp._rotation = this._rigidImp._rotation;
 			
-			poly.copyTangibleProps(this);
+			poly.copyTangibleProps(this, false);
+			poly.mass = this.mass;
 			poly.copyPropertiesAndFlags(this);
 			
 			if ( switchPlaces && _parent )

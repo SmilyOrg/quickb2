@@ -38,10 +38,10 @@ package QuickB2.events
 	 */
 	public class qb2SubContactEvent extends qb2BaseContactEvent
 	{
-		public static const SUB_CONTACT_STARTED:String = qb2BaseContactEvent.SUB_CONTACT_STARTED;
-		public static const SUB_CONTACT_ENDED:String   = qb2BaseContactEvent.SUB_CONTACT_ENDED
-		public static const SUB_PRE_SOLVE:String       = qb2BaseContactEvent.SUB_PRE_SOLVE;
-		public static const SUB_POST_SOLVE:String      = qb2BaseContactEvent.SUB_POST_SOLVE;
+		public static const SUB_CONTACT_STARTED:String = "subContactStarted";
+		public static const SUB_CONTACT_ENDED:String   = "subContactEnded";
+		public static const SUB_PRE_SOLVE:String       = "subPreSolve";
+		public static const SUB_POST_SOLVE:String      = "subPostSolve";
 		
 		public static const ALL_EVENT_TYPES:Array      = [SUB_CONTACT_STARTED, SUB_CONTACT_ENDED, SUB_PRE_SOLVE, SUB_POST_SOLVE];
 		

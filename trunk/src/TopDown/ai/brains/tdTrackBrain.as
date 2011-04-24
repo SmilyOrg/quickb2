@@ -147,8 +147,8 @@ package TopDown.ai.brains
 		{
 			if ( !(host is tdCarBody) )  return;
 			
-			host.addEventListener(qb2MassEvent.MASS_PROPS_CHANGED, geomChanged);
-			host.addEventListener(qb2ContactEvent.CONTACT_STARTED, hostHit);
+			host.addEventListener(qb2MassEvent.MASS_PROPS_CHANGED, geomChanged, null, true);
+			host.addEventListener(qb2ContactEvent.CONTACT_STARTED, hostHit, null, true);
 			_hasHost = true;
 			
 			refreshAntenna();
@@ -534,8 +534,8 @@ package TopDown.ai.brains
 		{
 			history.unshift(track);
 			
-			track.addEventListener(tdTrackEvent.TRACK_MOVED, trackChanged);
-			track.addEventListener(qb2ContainerEvent.REMOVED_FROM_WORLD, trackChanged);
+			track.addEventListener(tdTrackEvent.TRACK_MOVED, trackChanged, null, true);
+			track.addEventListener(qb2ContainerEvent.REMOVED_FROM_WORLD, trackChanged, null, true);
 			
 			if ( history.length > historyDepth )
 			{
@@ -687,8 +687,8 @@ package TopDown.ai.brains
 				}
 				addingOrRemovingAntenna = false;
 				
-				_antenna.addEventListener(qb2ContactEvent.CONTACT_STARTED, antennaHit);
-				_antenna.addEventListener(qb2ContactEvent.CONTACT_ENDED,   antennaHit);
+				_antenna.addEventListener(qb2ContactEvent.CONTACT_STARTED, antennaHit, null, true);
+				_antenna.addEventListener(qb2ContactEvent.CONTACT_ENDED,   antennaHit, null, true);
 				
 				_antenna.isGhost = true;
 			}

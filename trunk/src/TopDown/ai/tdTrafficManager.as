@@ -92,10 +92,10 @@ package TopDown.ai
 				
 				loadUpCarDict(_map);
 				
-				_map.addEventListener(qb2ContainerEvent.ADDED_OBJECT,              mapAddedOrRemovedSomething);
-				_map.addEventListener(qb2ContainerEvent.REMOVED_OBJECT,            mapAddedOrRemovedSomething);
-				_map.addEventListener(qb2ContainerEvent.DESCENDANT_ADDED_OBJECT,   mapAddedOrRemovedSomething);
-				_map.addEventListener(qb2ContainerEvent.DESCENDANT_REMOVED_OBJECT, mapAddedOrRemovedSomething);
+				_map.addEventListener(qb2ContainerEvent.ADDED_OBJECT,              mapAddedOrRemovedSomething, null, true);
+				_map.addEventListener(qb2ContainerEvent.REMOVED_OBJECT,            mapAddedOrRemovedSomething, null, true);
+				_map.addEventListener(qb2ContainerEvent.DESCENDANT_ADDED_OBJECT,   mapAddedOrRemovedSomething, null, true);
+				_map.addEventListener(qb2ContainerEvent.DESCENDANT_REMOVED_OBJECT, mapAddedOrRemovedSomething, null, true);
 			}
 		}
 		

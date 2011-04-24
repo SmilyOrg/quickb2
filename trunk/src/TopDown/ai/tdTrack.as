@@ -168,7 +168,7 @@ package TopDown.ai
 		{
 			if ( _start )  _start.removeEventListener(amUpdateEvent.ENTITY_UPDATED, updateOnMap);
 			_start = aPoint;
-			_start.addEventListener(amUpdateEvent.ENTITY_UPDATED, updateOnMap);
+			_start.addEventListener(amUpdateEvent.ENTITY_UPDATED, updateOnMap, null, true);
 			
 			updateOnMap(null);
 		}
@@ -180,7 +180,7 @@ package TopDown.ai
 		{
 			if ( _end )  _end.removeEventListener(amUpdateEvent.ENTITY_UPDATED, updateOnMap);
 			_end = aPoint;
-			_end.addEventListener(amUpdateEvent.ENTITY_UPDATED, updateOnMap);
+			_end.addEventListener(amUpdateEvent.ENTITY_UPDATED, updateOnMap, null, true);
 			
 			updateOnMap(null);
 		}

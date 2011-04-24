@@ -53,15 +53,15 @@ package TopDown.objects
 				throw qb2_errors.ABSTRACT_CLASS_ERROR;
 			}
 			
-			addEventListener(qb2ContainerEvent.ADDED_OBJECT,   justAddedObject);
-			addEventListener(qb2ContainerEvent.REMOVED_OBJECT, justRemovedObject);
+			addEventListener(qb2ContainerEvent.ADDED_OBJECT,   justAddedObject, null, true);
+			addEventListener(qb2ContainerEvent.REMOVED_OBJECT, justRemovedObject, null, true);
 		}
 		
 		private function justAddedObject(evt:qb2ContainerEvent):void
 		{
 			var object:qb2Object = evt.child;
 			
-			if ( object is tdBrain )
+			if ( object as tdBrain )
 			{
 				setBrain(object as tdBrain);
 			}

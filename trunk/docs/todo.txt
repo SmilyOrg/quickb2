@@ -25,6 +25,8 @@
 
 - make slice utility static, idiot.
 
+- make tires into bodies
+
 
 
 

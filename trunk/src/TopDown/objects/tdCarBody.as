@@ -90,12 +90,12 @@ package TopDown.objects
 		
 		private function init():void
 		{
-			addEventListener(qb2ContainerEvent.ADDED_TO_WORLD,     addedOrRemoved);
-			addEventListener(qb2ContainerEvent.REMOVED_FROM_WORLD, addedOrRemoved);
-			addEventListener(qb2ContainerEvent.INDEX_CHANGED,      indexChanged);
-			addEventListener(qb2MassEvent.MASS_PROPS_CHANGED,      massPropsUpdated);
-			addEventListener(qb2ContainerEvent.ADDED_OBJECT,       justAddedObject);
-			addEventListener(qb2ContainerEvent.REMOVED_OBJECT,     justRemovedObject);
+			addEventListener(qb2ContainerEvent.ADDED_TO_WORLD,     addedOrRemoved, null, true);
+			addEventListener(qb2ContainerEvent.REMOVED_FROM_WORLD, addedOrRemoved, null, true);
+			addEventListener(qb2ContainerEvent.INDEX_CHANGED,      indexChanged, null, true);
+			addEventListener(qb2MassEvent.MASS_PROPS_CHANGED,      massPropsUpdated, null, true);
+			addEventListener(qb2ContainerEvent.ADDED_OBJECT,       justAddedObject, null, true);
+			addEventListener(qb2ContainerEvent.REMOVED_OBJECT,     justRemovedObject, null, true);
 		}
 		
 		private function addedOrRemoved(evt:qb2ContainerEvent):void

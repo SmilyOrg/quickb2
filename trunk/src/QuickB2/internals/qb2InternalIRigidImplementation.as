@@ -52,16 +52,16 @@ package QuickB2.internals
 		{
 			_tang = tang;
 			_position = new amPoint2d();
-			_position.addEventListener(amUpdateEvent.ENTITY_UPDATED, pointUpdated);
+			_position.addEventListener(amUpdateEvent.ENTITY_UPDATED, pointUpdated, null, true);
 			_linearVelocity = new amVector2d();
-			_linearVelocity.addEventListener(amUpdateEvent.ENTITY_UPDATED, vectorUpdated);
+			_linearVelocity.addEventListener(amUpdateEvent.ENTITY_UPDATED, vectorUpdated, null, true);
 		}
 		
 		qb2_friend function setLinearVelocity(newVector:amVector2d):void
 		{
 			if ( _linearVelocity )  _linearVelocity.removeEventListener(amUpdateEvent.ENTITY_UPDATED, vectorUpdated);
 			_linearVelocity = newVector;
-			_linearVelocity.addEventListener(amUpdateEvent.ENTITY_UPDATED, vectorUpdated);
+			_linearVelocity.addEventListener(amUpdateEvent.ENTITY_UPDATED, vectorUpdated, null, true);
 			vectorUpdated(null);
 		}
 		
@@ -211,11 +211,11 @@ package QuickB2.internals
 		
 		qb2_friend function scaleBy(xValue:Number, yValue:Number, origin:amPoint2d = null, scaleMass:Boolean = true, scaleJointAnchors:Boolean = true, scaleActor:Boolean = true):void
 		{
-			_position.removeEventListener(amUpdateEvent.ENTITY_UPDATED, pointUpdated);
+			_position.pushDispatchBlock(pointUpdated);
 			{
 				_position.scaleBy(xValue, yValue, origin);
 			}
-			_position.addEventListener(amUpdateEvent.ENTITY_UPDATED, pointUpdated);
+			_position.popDispatchBlock(pointUpdated);
 				
 			if ( scaleJointAnchors )
 			{
@@ -281,7 +281,7 @@ package QuickB2.internals
 			{
 				if ( _position )  _position.removeEventListener(amUpdateEvent.ENTITY_UPDATED, pointUpdated);
 				_position = point;
-				_position.addEventListener(amUpdateEvent.ENTITY_UPDATED, pointUpdated);
+				_position.addEventListener(amUpdateEvent.ENTITY_UPDATED, pointUpdated, null, true);
 			}
 			
 			_rotation = rotationInRadians;

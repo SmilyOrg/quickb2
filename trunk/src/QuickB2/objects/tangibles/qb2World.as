@@ -160,7 +160,7 @@ package QuickB2.objects.tangibles
 		{
 			if ( _gravity )  _gravity.removeEventListener(amUpdateEvent.ENTITY_UPDATED, gravityUpdated);
 			_gravity = value;
-			_gravity.addEventListener(amUpdateEvent.ENTITY_UPDATED, gravityUpdated);
+			_gravity.addEventListener(amUpdateEvent.ENTITY_UPDATED, gravityUpdated, null, true);
 			gravityUpdated(null);
 		}
 		private var _gravity:amVector2d = null;
@@ -559,7 +559,7 @@ package QuickB2.objects.tangibles
 		
 		qb2_friend function registerGlobalTerrain(terrain:qb2Terrain):void
 		{
-			terrain.addEventListener(qb2ContainerEvent.INDEX_CHANGED, terrainIndexChanged);
+			terrain.addEventListener(qb2ContainerEvent.INDEX_CHANGED, terrainIndexChanged, null, true);
 			
 			addTerrainToList(terrain);
 		}

@@ -65,7 +65,7 @@ package QuickB2.objects
 			
 			turnFlagOn(qb2_flags.JOINS_IN_DEBUG_DRAWING | qb2_flags.JOINS_IN_DEEP_CLONING | qb2_flags.JOINS_IN_UPDATE_CHAIN, false);
 			
-			addEventListenerForTypes(rReflectionEvent.ALL_EVENT_TYPES, reflectionEvent);
+			addEventListenerForTypes(rReflectionEvent.ALL_EVENT_TYPES, reflectionEvent, null, true);
 		}
 		
 		private function reflectionEvent(evt:rReflectionEvent):void
@@ -781,6 +781,31 @@ package QuickB2.objects
 			if ( madeBody )
 			{
 				asTang.popEditSession();
+				
+				var delayedApplies:Vector.<qb2InternalDelayedApply> = qb2Tangible.delayedAppliesDict[asTang];
+				if ( delayedApplies )
+				{
+					for (var j:int = 0; j < delayedApplies.length; j++) 
+					{
+						var item:qb2InternalDelayedApply = delayedApplies[j];
+						if ( item.torque )
+						{
+							asTang.applyTorque(item.torque);
+						}
+						else if ( item.point && item.vector )
+						{
+							if ( item.isForce )
+							{
+								asTang.applyForce(item.point, item.vector);
+							}
+							else
+							{
+								asTang.applyImpulse(item.point, item.vector);
+							}
+						}
+					}
+					delete qb2Tangible.delayedAppliesDict[asTang];
+				}
 			}
 			
 			//--- (7) Clear any properties pushed onto the stack, cause we don't want them bleeding into peers' properties.

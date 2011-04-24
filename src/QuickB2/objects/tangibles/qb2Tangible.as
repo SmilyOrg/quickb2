@@ -437,10 +437,27 @@ package QuickB2.objects.tangibles
 		}
 			
 		public function putToSleep():void
-			{  if ( _bodyB2 )  _bodyB2.SetAwake(false);  }
+		{
+			if ( _world && _world.isLocked )
+			{
+				_world.addDelayedCall(this, putToSleep);
+				return;
+			}
+			
+			if ( _bodyB2 )
+			{
+				_bodyB2.SetAwake(false);
+			}
+		}
 
 		public function wakeUp():void
 		{
+			if ( _world && _world.isLocked )
+			{
+				_world.addDelayedCall(this, wakeUp);
+				return;
+			}
+			
 			if ( _bodyB2 )
 				_bodyB2.SetAwake(true);
 			else if ( _ancestorBody && _ancestorBody._bodyB2 )
@@ -449,8 +466,34 @@ package QuickB2.objects.tangibles
 		
 		public virtual function get centerOfMass():amPoint2d { return null; }  // implemented by qb2Shape, qb2Body, and qb2Group all seperately
 		
+		qb2_friend static const delayedAppliesDict:Dictionary = new Dictionary(true);
+		
+		private static function addDelayedApply(tang:qb2Tangible, delayedApply:qb2InternalDelayedApply):void
+		{
+			var vec:Vector.<qb2InternalDelayedApply> = delayedAppliesDict[tang] ? delayedAppliesDict[tang] : new Vector.<qb2InternalDelayedApply>();
+			delayedAppliesDict[tang] = vec;
+			vec.push(delayedApply);			
+		}
+		
 		public function applyImpulse(atPoint:amPoint2d, impulseVector:amVector2d):void
 		{
+			if ( !_world )
+			{
+				var delayedApply:qb2InternalDelayedApply = new qb2InternalDelayedApply();
+				delayedApply.point = atPoint.clone();
+				delayedApply.vector = impulseVector.clone();
+				delayedApply.isForce = false;
+				addDelayedApply(this, delayedApply);
+				
+				return;
+			}
+			
+			if ( _world.isLocked )
+			{
+				_world.addDelayedCall(this, applyImpulse, atPoint.clone(), impulseVector.clone());
+				return;
+			}
+			
 			if ( _bodyB2 )
 			{
 				_bodyB2.ApplyImpulse(new V2(impulseVector.x, impulseVector.y), new V2(atPoint.x / worldPixelsPerMeter, atPoint.y / worldPixelsPerMeter));
@@ -463,6 +506,23 @@ package QuickB2.objects.tangibles
 		
 		public function applyForce(atPoint:amPoint2d, forceVector:amVector2d):void
 		{
+			if ( !_world )
+			{
+				var delayedApply:qb2InternalDelayedApply = new qb2InternalDelayedApply();
+				delayedApply.point = atPoint.clone();
+				delayedApply.vector = forceVector.clone();
+				delayedApply.isForce = true;
+				addDelayedApply(this, delayedApply);
+				
+				return;
+			}
+			
+			if ( _world.isLocked )
+			{
+				_world.addDelayedCall(this, applyForce, atPoint.clone(), forceVector.clone());
+				return;
+			}
+			
 			if ( _bodyB2 )
 				_bodyB2.ApplyForce(new V2(forceVector.x, forceVector.y), new V2(atPoint.x / worldPixelsPerMeter, atPoint.y / worldPixelsPerMeter));
 			else if ( _ancestorBody && _ancestorBody._bodyB2 )
@@ -471,8 +531,25 @@ package QuickB2.objects.tangibles
 		
 		public function applyTorque(torque:Number):void
 		{
+			if ( !_world )
+			{
+				var delayedApply:qb2InternalDelayedApply = new qb2InternalDelayedApply();
+				delayedApply.torque = torque;
+				addDelayedApply(this, delayedApply);
+				
+				return;
+			}
+			
+			if ( _world.isLocked )
+			{
+				_world.addDelayedCall(this, applyTorque, torque);
+				return;
+			}
+			
 			if ( _bodyB2 )
+			{
 				_bodyB2.ApplyTorque(torque);
+			}
 		}
 			
 		public function getWorldPoint(localPoint:amPoint2d, overrideWorldSpace:qb2Tangible = null):amPoint2d

@@ -62,9 +62,9 @@ package QuickB2.stock
 		
 		private function init():void
 		{
-			addEventListener(qb2ContactEvent.CONTACT_STARTED, started);
-			addEventListener(qb2ContactEvent.CONTACT_ENDED,   ended);
-			addEventListener(qb2UpdateEvent.POST_UPDATE,      postUpdate);
+			addEventListener(qb2ContactEvent.CONTACT_STARTED, started,    null, true);
+			addEventListener(qb2ContactEvent.CONTACT_ENDED,   ended,      null, true);
+			addEventListener(qb2UpdateEvent.POST_UPDATE,      postUpdate, null, true);
 			
 			isGhost = true;
 		}

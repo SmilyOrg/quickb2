@@ -85,8 +85,8 @@ package QuickB2.objects.joints
 		{
 			if ( !object._rigidImp._attachedJoints )  object._rigidImp._attachedJoints = new Vector.<qb2Joint>();
 			object._rigidImp._attachedJoints.push(this);
-			object.addEventListener(qb2ContainerEvent.ADDED_TO_WORLD,     addedOrRemoved);
-			object.addEventListener(qb2ContainerEvent.REMOVED_FROM_WORLD, addedOrRemoved);
+			object.addEventListener(qb2ContainerEvent.ADDED_TO_WORLD,     addedOrRemoved, null, true);
+			object.addEventListener(qb2ContainerEvent.REMOVED_FROM_WORLD, addedOrRemoved, null, true);
 			
 			makeWrapper(_world);
 		}
@@ -155,7 +155,7 @@ package QuickB2.objects.joints
 		{
 			if ( _localAnchor1 )  _localAnchor1.removeEventListener(amUpdateEvent.ENTITY_UPDATED, entityEventFired);
 			_localAnchor1 = aPoint;
-			_localAnchor1.addEventListener(amUpdateEvent.ENTITY_UPDATED, entityEventFired);
+			_localAnchor1.addEventListener(amUpdateEvent.ENTITY_UPDATED, entityEventFired, null, true);
 			anchorUpdated(_localAnchor1);
 		}
 		
@@ -163,7 +163,7 @@ package QuickB2.objects.joints
 		{
 			if ( _localAnchor2 )  _localAnchor2.removeEventListener(amUpdateEvent.ENTITY_UPDATED, entityEventFired);
 			_localAnchor2 = aPoint;
-			_localAnchor2.addEventListener(amUpdateEvent.ENTITY_UPDATED, entityEventFired);
+			_localAnchor2.addEventListener(amUpdateEvent.ENTITY_UPDATED, entityEventFired, null, true);
 			anchorUpdated(_localAnchor2);
 		}
 		

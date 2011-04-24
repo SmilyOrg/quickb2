@@ -55,7 +55,7 @@ package QuickB2.objects.tangibles
 		{
 			super();
 			
-			polygon.addEventListener(amUpdateEvent.ENTITY_UPDATED, polygonUpdated);
+			polygon.addEventListener(amUpdateEvent.ENTITY_UPDATED, polygonUpdated, null, true);
 		}
 		
 		private function polygonUpdated(evt:amUpdateEvent):void
@@ -114,7 +114,7 @@ package QuickB2.objects.tangibles
 			//--- The listeners are removed here in order to not have to recalculate polygon surface area for every vertex.
 			pushEditSession();
 			{
-				polygon.removeEventListener(amUpdateEvent.ENTITY_UPDATED, polygonUpdated);
+				polygon.pushDispatchBlock(polygonUpdated);
 				{
 					for ( var i:int = 0; i < oneOrMoreVertices.length; i++ )
 					{
@@ -122,7 +122,7 @@ package QuickB2.objects.tangibles
 					}
 					polygonUpdated(null); // call the event listener manually to make up for removing the listeners.
 				}
-				polygon.addEventListener(amUpdateEvent.ENTITY_UPDATED, polygonUpdated);
+				polygon.popDispatchBlock(polygonUpdated);
 			}
 			popEditSession();
 			
@@ -147,7 +147,7 @@ package QuickB2.objects.tangibles
 			//--- See "addVertex" for comments.
 			pushEditSession();
 			{
-				polygon.removeEventListener(amUpdateEvent.ENTITY_UPDATED, polygonUpdated);
+				polygon.pushDispatchBlock(polygonUpdated);
 				{
 					for ( var i:int = 0; i < oneOrMoreVertices.length; i++ )
 					{
@@ -156,7 +156,7 @@ package QuickB2.objects.tangibles
 					}
 					polygonUpdated(null);
 				}
-				polygon.addEventListener(amUpdateEvent.ENTITY_UPDATED, polygonUpdated);
+				polygon.popDispatchBlock(polygonUpdated);
 			}
 			popEditSession();
 			

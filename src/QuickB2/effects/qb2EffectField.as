@@ -53,14 +53,24 @@ package QuickB2.effects
 			init();
 		}
 		
+		private static const CONTAINER_EVENTS:Array =
+		[
+			qb2ContainerEvent.DESCENDANT_ADDED_OBJECT,
+			qb2ContainerEvent.DESCENDANT_REMOVED_OBJECT,
+			qb2ContainerEvent.ADDED_OBJECT,
+			qb2ContainerEvent.REMOVED_OBJECT
+		];
+		
+		private static const CONTAINER_WORLD_EVENTS:Array =
+		[
+			qb2ContainerEvent.ADDED_TO_WORLD, qb2ContainerEvent.REMOVED_FROM_WORLD
+		];
+		
 		private function init():void
 		{
 			isGhost = true;
 			
-			addEventListener(qb2ContainerEvent.DESCENDANT_ADDED_OBJECT,   childrenChanged);
-			addEventListener(qb2ContainerEvent.DESCENDANT_REMOVED_OBJECT, childrenChanged);
-			addEventListener(qb2ContainerEvent.ADDED_OBJECT,              childrenChanged);
-			addEventListener(qb2ContainerEvent.REMOVED_OBJECT,            childrenChanged);
+			addEventListenerForTypes(CONTAINER_EVENTS, childrenChanged, null, true);
 			
 			addContainerEventListeners();
 			
@@ -267,21 +277,19 @@ package QuickB2.effects
 		{
 			addSelfToSystem();
 			
-			addEventListener(qb2ContainerEvent.ADDED_TO_WORLD,            addedOrRemoved);
-			addEventListener(qb2ContainerEvent.REMOVED_FROM_WORLD,        addedOrRemoved);
+			addEventListenerForTypes(CONTAINER_WORLD_EVENTS, addedOrRemoved, null, true);
 		}
 		
 		private function removeContainerEventListeners():void
 		{
 			removeSelfFromSystem(parent, world);
 			
-			removeEventListener(qb2ContainerEvent.ADDED_TO_WORLD,            addedOrRemoved);
-			removeEventListener(qb2ContainerEvent.REMOVED_FROM_WORLD,        addedOrRemoved);
+			removeEventListenerForTypes(CONTAINER_WORLD_EVENTS, addedOrRemoved);
 		}
 		
 		private function addContactEventListeners():void
 		{
-			addEventListener(qb2UpdateEvent.POST_UPDATE, postUpdate);
+			addEventListener(qb2UpdateEvent.POST_UPDATE, postUpdate, null, true);
 			
 			//--- Create (and fill) contact dictionary.
 			shapeContactDict = new Dictionary(WEAK_KEYS);
@@ -328,13 +336,13 @@ package QuickB2.effects
 				}
 			}
 			
-			addEventListener(qb2ContactEvent.CONTACT_STARTED, contact);
-			addEventListener(qb2ContactEvent.CONTACT_ENDED,   contact);
+			addEventListener(qb2ContactEvent.CONTACT_STARTED, contact, null, true);
+			addEventListener(qb2ContactEvent.CONTACT_ENDED,   contact, null, true);
 		}
 		
 		private function removeContactEventListeners():void
 		{			
-			removeEventListener(qb2UpdateEvent.POST_UPDATE, postUpdate, false);
+			removeEventListener(qb2UpdateEvent.POST_UPDATE, postUpdate);
 			
 			//--- Clean up contact dictionary, removing this effects from all shapes in contact.
 			if ( shapeContactDict )

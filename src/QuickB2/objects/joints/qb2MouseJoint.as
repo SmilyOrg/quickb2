@@ -73,7 +73,7 @@ package QuickB2.objects.joints
 		{
 			if ( _worldTarget )  _worldTarget.removeEventListener(amUpdateEvent.ENTITY_UPDATED, entityEventFired);
 			_worldTarget = newPoint;
-			_worldTarget.addEventListener(amUpdateEvent.ENTITY_UPDATED, entityEventFired);
+			_worldTarget.addEventListener(amUpdateEvent.ENTITY_UPDATED, entityEventFired, null, true);
 			anchorUpdated(_worldTarget);
 		}
 		

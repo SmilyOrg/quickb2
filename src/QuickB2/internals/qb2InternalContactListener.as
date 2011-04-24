@@ -120,7 +120,7 @@ package QuickB2.internals
 		}
 		
 		public override function BeginContact(contact:b2Contact):void
-		{//trace("ADDED");
+		{trace("ADDED");
 			var shape1:qb2Shape = contact.GetFixtureA().GetUserData() as qb2Shape;
 			var shape2:qb2Shape = contact.GetFixtureB().GetUserData() as qb2Shape;
 			

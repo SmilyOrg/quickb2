@@ -50,14 +50,14 @@ package QuickB2.stock
 				addContactListeners();
 			}
 			
-			addEventListener(qb2ContainerEvent.ADDED_TO_WORLD,     addedOrRemoved);
-			addEventListener(qb2ContainerEvent.REMOVED_FROM_WORLD, addedOrRemoved);
+			addEventListener(qb2ContainerEvent.ADDED_TO_WORLD,     addedOrRemoved, null, true);
+			addEventListener(qb2ContainerEvent.REMOVED_FROM_WORLD, addedOrRemoved, null, true);
 		}
 		
 		private function addContactListeners():void
 		{
-			addEventListener(qb2ContactEvent.CONTACT_STARTED, contact);
-			addEventListener(qb2ContactEvent.CONTACT_ENDED,   contact);
+			addEventListener(qb2ContactEvent.CONTACT_STARTED, contact, null, true);
+			addEventListener(qb2ContactEvent.CONTACT_ENDED,   contact, null, true);
 		}
 		
 		private function removeContactListeners():void

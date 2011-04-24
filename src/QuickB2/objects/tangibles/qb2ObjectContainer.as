@@ -220,6 +220,9 @@ package QuickB2.objects.tangibles
 			for ( var i:int = 0; i < someObjects.length; i++ )
 			{
 				var object:qb2Object = someObjects[i];
+				
+				if ( object._parent )  throw qb2_errors.ALREADY_HAS_PARENT_ERROR;
+				
 				var tang:qb2Tangible = object as qb2Tangible;
 				
 				if ( tang )
@@ -248,9 +251,7 @@ package QuickB2.objects.tangibles
 		}
 		
 		private function addObjectToArray(object:qb2Object, index:uint, propStacks:Object, booleanFlags:uint, booleanOwnershipFlags:uint ):void
-		{
-			if ( object._parent )  throw qb2_errors.ALREADY_HAS_PARENT_ERROR;
-			
+		{			
 			if ( index == _objects.length )
 				_objects.push(object);
 			else

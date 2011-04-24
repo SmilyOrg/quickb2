@@ -54,7 +54,7 @@ package QuickB2.stock
 		{
 			isKinematic = true;
 			
-			addEventListener(qb2UpdateEvent.PRE_UPDATE, updateVelocities);
+			addEventListener(qb2UpdateEvent.PRE_UPDATE, updateVelocities, null, true);
 		}
 		
 		public function updateVelocities(evt:qb2UpdateEvent):void

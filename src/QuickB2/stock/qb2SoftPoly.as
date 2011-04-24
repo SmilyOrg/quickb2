@@ -276,6 +276,25 @@ package QuickB2.stock
 			return _isCircle;
 		}
 		
+		public function getRoughRotation():Number
+		{
+			for (var i:int = 0; i < numObjects; i++) 
+			{
+				var asRigid:qb2IRigidObject = getObjectAt(i) as qb2IRigidObject;
+				if ( asRigid )
+				{
+					return asRigid.rotation;
+				}
+			}
+			
+			return 0;
+		}
+		
+		public function getRoughPosition():amPoint2d
+		{
+			return this.centerOfMass;
+		}
+		
 		public override function draw(graphics:srGraphics2d):void
 		{
 			if ( !drawSplinarOutlines )

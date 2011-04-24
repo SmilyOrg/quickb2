@@ -44,7 +44,7 @@ package QuickB2.effects
 		
 		public function qb2PlanetaryGravityField()
 		{
-			addEventListener(qb2UpdateEvent.POST_UPDATE, processAccumulator);
+			addEventListener(qb2UpdateEvent.POST_UPDATE, processAccumulator, null, true);
 		}
 		
 		private var accumArray:Vector.<qb2IRigidObject> = new Vector.<qb2IRigidObject>();

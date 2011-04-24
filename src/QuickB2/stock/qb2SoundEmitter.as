@@ -13,13 +13,13 @@ package QuickB2.stock
 	{
 		public var ignoreList:Array = null;
 		
-		public function qb2SoundEmitter() 
+		public function qb2SoundEmitter()
 		{
-			addEventListener(qb2ContainerEvent.ADDED_TO_WORLD, addedOrRemoved, false, 0, true);
-			addEventListener(qb2ContainerEvent.REMOVED_FROM_WORLD, addedOrRemoved, false, 0, true);
-			addEventListener(qb2ContactEvent.CONTACT_STARTED, contact, false, 0, true);
-			addEventListener(qb2ContactEvent.CONTACT_ENDED, contact, false, 0, true);
-			addEventListener(qb2MassEvent.MASS_PROPS_CHANGED, massOrAreaChanged, false, 0, true);
+			addEventListener(qb2ContainerEvent.ADDED_TO_WORLD, addedOrRemoved, null, true);
+			addEventListener(qb2ContainerEvent.REMOVED_FROM_WORLD, addedOrRemoved, null, true);
+			addEventListener(qb2ContactEvent.CONTACT_STARTED, contact, null, true);
+			addEventListener(qb2ContactEvent.CONTACT_ENDED, contact, null, true);
+			addEventListener(qb2MassEvent.MASS_PROPS_CHANGED, massOrAreaChanged, null, true);
 		}
 		
 		private function addedOrRemoved(evt:qb2ContainerEvent):void

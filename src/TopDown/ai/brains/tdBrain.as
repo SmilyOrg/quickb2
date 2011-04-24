@@ -67,8 +67,8 @@ package TopDown.ai.brains
 			{
 				addedToHost();
 				
-				_host.addEventListener(qb2ContainerEvent.ADDED_TO_WORLD,     hostAddedOrRemoved);
-				_host.addEventListener(qb2ContainerEvent.REMOVED_FROM_WORLD, hostAddedOrRemoved);
+				_host.addEventListener(qb2ContainerEvent.ADDED_TO_WORLD,     hostAddedOrRemoved, null, true);
+				_host.addEventListener(qb2ContainerEvent.REMOVED_FROM_WORLD, hostAddedOrRemoved, null, true);
 				
 				if ( _host.world )
 				{

@@ -104,7 +104,7 @@ package TopDown.carparts
 			width = initWidth;
 			radius = initRadius;
 			
-			addEventListener(qb2ContainerEvent.REMOVED_FROM_WORLD, addedOrRemoved);
+			addEventListener(qb2ContainerEvent.REMOVED_FROM_WORLD, addedOrRemoved, null, true);
 		}
 		
 		private function addedOrRemoved(evt:rEvent):void
@@ -236,7 +236,7 @@ package TopDown.carparts
 		{
 			if ( _position )  _position.removeEventListener(amUpdateEvent.ENTITY_UPDATED, pointUpdated);
 			_position = newPoint;
-			_position.addEventListener(amUpdateEvent.ENTITY_UPDATED, pointUpdated);
+			_position.addEventListener(amUpdateEvent.ENTITY_UPDATED, pointUpdated, null, true);
 			pointUpdated(null);
 		}
 		

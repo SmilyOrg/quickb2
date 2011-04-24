@@ -29,7 +29,10 @@ package QuickB2.objects
 	import QuickB2.*;
 	import QuickB2.events.*;
 	import QuickB2.internals.*;
+	import QuickB2.loaders.proxies.qb2ProxyObject;
 	import QuickB2.misc.*;
+	import QuickB2.misc.acting.qb2IActor;
+	import QuickB2.misc.acting.qb2IActorContainer;
 	import QuickB2.objects.joints.*;
 	import QuickB2.objects.tangibles.*;
 	import revent.rEventDispatcher;
@@ -868,7 +871,37 @@ package QuickB2.objects
 		 * Virtual method for drawing debug graphics for this object.  You can override this if you want, or leave it unimplemented.
 		 * A common use for this function is to set fill/line-style on the srGraphics2dObject object, and then call draw().
 		 */
-		public virtual function drawDebug(graphics:srGraphics2d):void {}
+		public virtual function drawDebug(graphics:srGraphics2d):void { }
+		
+		qb2_friend function removeActor():void
+		{
+			if ( _actor && _actor.parentActor && _parent && _parent._actor == _actor.parentActor )
+			{
+				_actor.parentActor.removeActor(_actor);
+			}
+		}
+		
+		qb2_friend function addActor():void
+		{
+			if ( _actor && !_actor.parentActor && _parent )
+			{
+				if( _parent._actor && (_parent._actor as qb2IActorContainer) )
+					(_parent._actor as qb2IActorContainer).addActor(_actor);
+			}
+		}
+		
+		public function get actor():qb2IActor
+			{  return _actor;  }
+		public function set actor(newActor:qb2IActor):void
+		{
+			_actor = newActor;
+			
+			if ( _actor as qb2ProxyObject )
+			{
+				(_actor as qb2ProxyObject).actualObject = this;
+			}
+		}
+		qb2_friend var _actor:qb2IActor;
 		
 		/**
 		 * Returns a new instance that is a clone of this object.  Properties, flags, and their ownerships are copied to the new instance.
@@ -881,6 +914,11 @@ package QuickB2.objects
 			var cloned:qb2Object = new (this as Object).constructor;
 		
 			cloned.copyPropertiesAndFlags(this);
+			
+			if ( deep && _actor )
+			{
+				cloned.actor = _actor.clone(deep);
+			}
 			
 			return cloned;
 		}

@@ -1,4 +1,3 @@
-- move actor up to qb2Object
 
 - use qb2ISound for sound field
 
@@ -22,7 +21,11 @@
 
 - make sure density is preserved in slicing
 
-- getRotation/position for soft body
+- fix drawing tracks
+
+- make slice utility static, idiot.
+
+
 
 
 

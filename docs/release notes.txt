@@ -28,6 +28,10 @@
 
 - implemented a more classical C++-style standard for getter and setter functions, e.g. "public function getFriction():Number" instead of "public function get friction():Number...several advantages to this exist...(1) easier to find the function you're looking for with an IDE's autocomplete, (2) more copy/paste-portable if QuickB2 ever gets ported to other languages, (3) more consistent and readable API.
 
+- significant work on the manual/documentation to bring things up to speed with latest engine revisions.
+
+- applyImpulse, applyForce, and applyTorque all work when an object isn't part of a world...before, an object had to be added to a world before the apply*() functions did anything.
+
 
 1/13/2011  (version 0.6)
 

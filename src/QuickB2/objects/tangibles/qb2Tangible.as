@@ -212,49 +212,14 @@ package QuickB2.objects.tangibles
 		public function get ancestorBody():qb2Body
 			{  return _ancestorBody;  }
 		qb2_friend var _ancestorBody:qb2Body;
-	
-		qb2_friend function removeActor():void
-		{
-			if ( _actor && _actor.parentActor && _parent && _parent._actor == _actor.parentActor )
-			{
-				_actor.parentActor.removeActor(_actor);
-			}
-		}
-		
-		qb2_friend function addActor():void
-		{
-			if ( _actor && !_actor.parentActor && _parent )
-			{
-				if( _parent._actor && (_parent._actor is qb2IActorContainer) )
-					(_parent._actor as qb2IActorContainer).addActor(_actor);
-			}
-		}
 		
 		qb2_friend var _effectFields:Vector.<qb2EffectField>;
-		
-		public function get actor():qb2IActor
-			{  return _actor;  }
-		public function set actor(newActor:qb2IActor):void
-		{
-			_actor = newActor;
-			
-			if ( _actor is qb2ProxyObject )
-			{
-				(_actor as qb2ProxyObject).actualObject = this;
-			}
-		}
-		qb2_friend var _actor:qb2IActor;
 		
 		public override function clone(deep:Boolean = true):qb2Object
 		{
 			var cloned:qb2Tangible = super.clone(deep) as qb2Tangible;
 			
 			cloned.copyTangibleProps(this, false);
-			
-			if ( deep && _actor )
-			{
-				cloned.actor = _actor.clone(deep);
-			}
 			
 			return cloned;
 		}

@@ -258,14 +258,9 @@ package QuickB2.objects.tangibles
 				_objects.splice(index, 0, object);
 			
 			object._parent = object._lastParent = this;
+			object.addActor();
 			
-			var asTang:qb2Tangible = object as qb2Tangible;
-			if ( asTang )
-			{
-				asTang.addActor();
-			}
-			
-			walkDownTree(object, _world, this._ancestorBody ? this._ancestorBody :  ( this is qb2Body ? this as qb2Body : null), propStacks, booleanFlags, booleanOwnershipFlags, this, true);
+			walkDownTree(object, _world, this._ancestorBody ? this._ancestorBody :  ( this as qb2Body ? this as qb2Body : null), propStacks, booleanFlags, booleanOwnershipFlags, this, true);
 			
 			var evt:qb2ContainerEvent = qb2_cachedEvents.CONTAINER_EVENT.inUse ? new qb2ContainerEvent() : qb2_cachedEvents.CONTAINER_EVENT;
 			evt.type = qb2ContainerEvent.ADDED_OBJECT;
@@ -279,13 +274,13 @@ package QuickB2.objects.tangibles
 		private function removeObjectFromArray(index:uint):qb2Object
 		{
 			var objectRemoved:qb2Object = _objects.splice(index, 1)[0];
+			objectRemoved.removeActor();
 			
 			pushEditSession();
 			{
 				var asTang:qb2Tangible = objectRemoved as qb2Tangible;
 				if ( asTang )
 				{
-					asTang.removeActor();
 					_surfaceArea -= asTang._surfaceArea;
 					_mass        -= asTang._mass;
 				}

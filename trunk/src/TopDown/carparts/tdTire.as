@@ -25,7 +25,6 @@ package TopDown.carparts
 	import As3Math.consts.*;
 	import As3Math.general.*;
 	import As3Math.geo2d.*;
-	import flash.display.*;
 	import flash.events.*;
 	import QuickB2.debugging.*;
 	import QuickB2.events.*;
@@ -52,8 +51,6 @@ package TopDown.carparts
 		td_friend static const QUAD_BOT:uint = 8;
 		
 		td_friend var quadrant:uint = 0;
-
-		public var actor:DisplayObject;
 
 		td_friend var _position:amPoint2d;
 		

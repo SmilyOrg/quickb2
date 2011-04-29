@@ -11,7 +11,8 @@ package QuickB2.internals
 	import Box2DAS.Common.XF;
 	import Box2DAS.Dynamics.b2Fixture;
 	import QuickB2.*;
-	import QuickB2.misc.qb2_errors;
+	import QuickB2.debugging.logging.qb2_errors;
+	import QuickB2.debugging.logging.qb2_throw;
 	import QuickB2.objects.qb2Object;
 	import QuickB2.objects.tangibles.qb2ObjectContainer;
 	import QuickB2.objects.tangibles.qb2Shape;
@@ -32,19 +33,19 @@ package QuickB2.internals
 			//--- Do a bunch of checks for whether tang1 is a legal operation in the first place.
 			if ( !tang1.world || !tang2.world )
 			{
-				throw qb2_errors.BAD_DISTANCE_QUERY;
+				qb2_throw(qb2_errors.BAD_DISTANCE_QUERY);
 				return NaN;
 			}
 			if ( tang1 == tang2 )
 			{
-				throw qb2_errors.BAD_DISTANCE_QUERY;
+				qb2_throw(qb2_errors.BAD_DISTANCE_QUERY);
 				return NaN;
 			}
 			if ( tang1 is qb2ObjectContainer )
 			{
 				if ( tang2.isDescendantOf(tang1 as qb2ObjectContainer) )
 				{
-					throw qb2_errors.BAD_DISTANCE_QUERY;
+					qb2_throw(qb2_errors.BAD_DISTANCE_QUERY);
 					return NaN;
 				}
 			}
@@ -52,7 +53,7 @@ package QuickB2.internals
 			{
 				if ( tang1.isDescendantOf(tang2 as qb2ObjectContainer) )
 				{
-					throw qb2_errors.BAD_DISTANCE_QUERY;
+					qb2_throw(qb2_errors.BAD_DISTANCE_QUERY);
 					return NaN;
 				}
 			}
@@ -121,7 +122,7 @@ package QuickB2.internals
 			
 			if ( !vec )
 			{
-				throw qb2_errors.BAD_DISTANCE_QUERY;
+				qb2_throw(qb2_errors.BAD_DISTANCE_QUERY);
 				return NaN;
 			}
 			

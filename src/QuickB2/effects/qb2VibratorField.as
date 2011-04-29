@@ -27,6 +27,7 @@ package QuickB2.effects
 	import As3Math.geo2d.*;
 	import flash.utils.*;
 	import QuickB2.debugging.*;
+	import QuickB2.debugging.logging.qb2_toString;
 	import QuickB2.misc.*;
 	import QuickB2.objects.*;
 	import QuickB2.objects.tangibles.*;
@@ -113,7 +114,7 @@ package QuickB2.effects
 		}
 		
 		public override function toString():String 
-			{  return qb2DebugTraceUtils.formatToString(this, "qb2VibratorField");  }
+			{  return qb2_toString(this, "qb2VibratorField");  }
 		
 	}
 }

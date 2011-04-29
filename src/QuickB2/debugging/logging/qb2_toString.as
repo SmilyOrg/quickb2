@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010 Johnson Center for Simulation at Pine Technical College
+ * Copyright (c) 2011 Doug Koellmer
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,33 +20,48 @@
  * THE SOFTWARE.
  */
 
-package QuickB2.stock.todo 
+package QuickB2.debugging.logging 
 {
-	import As3Math.geo2d.*;
-	import QuickB2.debugging.qb2_toString;
-	import QuickB2.objects.*;
-	import QuickB2.objects.tangibles.*;
-	
-	/** TODO: This should be like qb2SoftPoly, but for long narrow shapes.
+	/**
+	 * Creates a string useful for printing with custom variables.
 	 * 
-	 * @private
 	 * @author Doug Koellmer
-	 */	 
-	public class qb2SoftRod extends qb2Group
+	 */
+	public function qb2_toString(object:Object, className:String, variableNames:Array = null):String
 	{
-		public function qb2SoftRod(initBeg:amPoint2d, initEnd:amPoint2d, initWidth:Number = 10, initNumSegs:uint = 2, initMass:Number = 1, initContactGroupIndex:int = -1) 
+		var toReturn:String = qb2_debugPrintSettings.classBrackets.charAt(0) + className + qb2_debugPrintSettings.variableBrackets.charAt(0);
+		
+		if ( !variableNames )
 		{
-			set(initBeg, initEnd, initWidth, initNumSegs);
-			if ( initMass )  mass = initMass;
-			contactGroupIndex = initContactGroupIndex;
+			variableNames = qb2_debugPrintSettings.classToVariableMap[className];
 		}
 		
-		public function set(newBeg:amPoint2d, newEnd:amPoint2d, newWidth:Number = 10, newNumSegs:uint = 2):void
+		var varDelimiter:String = qb2_debugPrintSettings.variableDelimiter;
+		if ( variableNames )
 		{
+			var length:int = variableNames.length;
+			for (var i:int = 0; i < length; i++)
+			{
+				var varName:String = variableNames[i] as String;
 			
+				if ( !varName )  continue;
+				
+				var variable:Object = object[varName];
+				toReturn += varName + qb2_debugPrintSettings.equalityCharacter + variable;
+				
+				if ( i < length -1 )
+				{
+					toReturn += varDelimiter;
+				}
+			}
+		}
+		else
+		{
+			toReturn += "no variables provided";
 		}
 		
-		public override function toString():String 
-			{  return qb2_toString.formatToString(this, "qb2SoftRod");  }
+		toReturn += qb2_debugPrintSettings.variableBrackets.charAt(1) + qb2_debugPrintSettings.classBrackets.charAt(1);
+		
+		return toReturn;
 	}
 }

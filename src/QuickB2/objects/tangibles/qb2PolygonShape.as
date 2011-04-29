@@ -31,6 +31,9 @@ package QuickB2.objects.tangibles
 	import flash.display.*;
 	import QuickB2.*;
 	import QuickB2.debugging.*;
+	import QuickB2.debugging.drawing.qb2_debugDrawFlags;
+	import QuickB2.debugging.drawing.qb2_debugDrawSettings;
+	import QuickB2.debugging.logging.qb2_toString;
 	import QuickB2.misc.*;
 	import QuickB2.objects.*;
 	import surrender.srGraphics2d;
@@ -617,6 +620,6 @@ package QuickB2.objects.tangibles
 		}
 		
 		public override function toString():String 
-			{  return qb2DebugTraceUtils.formatToString(this, "qb2PolygonShape");  }
+			{  return qb2_toString(this, "qb2PolygonShape");  }
 	}
 }

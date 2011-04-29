@@ -35,6 +35,9 @@ package QuickB2.objects.tangibles
 	import flash.utils.*;
 	import QuickB2.*;
 	import QuickB2.debugging.*;
+	import QuickB2.debugging.logging.qb2_errors;
+	import QuickB2.debugging.logging.qb2_throw;
+	import QuickB2.debugging.logging.qb2_toString;
 	import QuickB2.effects.*;
 	import QuickB2.events.*;
 	import QuickB2.internals.*;
@@ -552,7 +555,9 @@ package QuickB2.objects.tangibles
 		
 		public override function clone(deep:Boolean = true):qb2Object
 		{
-			throw qb2_errors.CLONE_ERROR;
+			qb2_throw(qb2_errors.CLONE_ERROR);
+			
+			return null;
 		}
 		
 		qb2_friend const _effectFieldStack:Vector.<qb2EffectField> = new Vector.<qb2EffectField>();
@@ -627,6 +632,6 @@ package QuickB2.objects.tangibles
 		qb2_friend const _gravityZRevisionDict:Dictionary = new Dictionary(true);
 		
 		public override function toString():String 
-			{  return qb2DebugTraceUtils.formatToString(this, "qb2World");  }
+			{  return qb2_toString(this, "qb2World");  }
 	}
 }

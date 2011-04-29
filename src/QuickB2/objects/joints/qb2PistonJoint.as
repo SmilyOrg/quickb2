@@ -31,6 +31,9 @@ package QuickB2.objects.joints
 	import flash.display.*;
 	import QuickB2.*;
 	import QuickB2.debugging.*;
+	import QuickB2.debugging.logging.qb2_errors;
+	import QuickB2.debugging.logging.qb2_throw;
+	import QuickB2.debugging.logging.qb2_toString;
 	import QuickB2.misc.*;
 	import QuickB2.objects.*;
 	import QuickB2.objects.tangibles.*;
@@ -157,7 +160,7 @@ package QuickB2.objects.joints
 			if ( propertyName == qb2_props.MAX_FORCE )
 			{
 				if ( !callingFromUpdate && optimizedSpring && springK )
-					throw qb2_errors.OPT_SPRING_ERROR;
+					qb2_throw(qb2_errors.OPT_SPRING_ERROR);
 				
 				if ( jointB2 is b2PrismaticJoint )
 				{
@@ -175,7 +178,7 @@ package QuickB2.objects.joints
 			else if ( propertyName == qb2_props.TARGET_SPEED )
 			{
 				if ( !callingFromUpdate && optimizedSpring && springK )
-					throw qb2_errors.OPT_SPRING_ERROR;
+					qb2_throw(qb2_errors.OPT_SPRING_ERROR);
 					
 				if ( jointB2 is b2PrismaticJoint )
 				{
@@ -669,6 +672,6 @@ package QuickB2.objects.joints
 		}
 		
 		public override function toString():String 
-			{  return qb2DebugTraceUtils.formatToString(this, "qb2PistonJoint");  }
+			{  return qb2_toString(this, "qb2PistonJoint");  }
 	}
 }

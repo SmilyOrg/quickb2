@@ -90,11 +90,11 @@ package TopDown.objects
 		
 		private function init():void
 		{
-			addEventListener(qb2ContainerEvent.ADDED_TO_WORLD,     addedOrRemoved, null, true);
-			addEventListener(qb2ContainerEvent.REMOVED_FROM_WORLD, addedOrRemoved, null, true);
-			addEventListener(qb2ContainerEvent.INDEX_CHANGED,      indexChanged, null, true);
-			addEventListener(qb2MassEvent.MASS_PROPS_CHANGED,      massPropsUpdated, null, true);
-			addEventListener(qb2ContainerEvent.ADDED_OBJECT,       justAddedObject, null, true);
+			addEventListener(qb2ContainerEvent.ADDED_TO_WORLD,     addedOrRemoved,    null, true);
+			addEventListener(qb2ContainerEvent.REMOVED_FROM_WORLD, addedOrRemoved,    null, true);
+			addEventListener(qb2ContainerEvent.INDEX_CHANGED,      indexChanged,      null, true);
+			addEventListener(qb2MassEvent.MASS_PROPS_CHANGED,      massPropsUpdated,  null, true);
+			addEventListener(qb2ContainerEvent.ADDED_OBJECT,       justAddedObject,   null, true);
 			addEventListener(qb2ContainerEvent.REMOVED_OBJECT,     justRemovedObject, null, true);
 		}
 		
@@ -454,7 +454,7 @@ package TopDown.objects
 				
 				tire._currTurnAngle = tire.canTurn ? _currTurnAngle : 0;
 				tire._currTurnAngle = tire.flippedTurning ? -tire._currTurnAngle : tire._currTurnAngle;
-				if ( tire.actor )  tire.actor.rotation = tire._currTurnAngle * TO_DEG;
+				if ( tire.actor )  tire.actor.setRotation(tire._currTurnAngle * TO_DEG);
 				tire._wasSkidding = tire._isSkidding;
 				tire._isSkidding = false;
 				

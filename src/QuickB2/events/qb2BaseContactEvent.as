@@ -29,7 +29,8 @@ package QuickB2.events
 	import Box2DAS.Dynamics.b2World;
 	import Box2DAS.Dynamics.Contacts.*;
 	import QuickB2.*;
-	import QuickB2.misc.qb2_errors;
+	import QuickB2.debugging.logging.qb2_errors;
+	import QuickB2.debugging.logging.qb2_throw;
 	import QuickB2.misc.qb2_flags;
 	import QuickB2.objects.tangibles.qb2World;
 	import revent.rEvent;
@@ -68,7 +69,7 @@ package QuickB2.events
 		{
 			super(type);
 			
-			if ( (this as Object).constructor == qb2BaseContactEvent )  throw qb2_errors.ABSTRACT_CLASS_ERROR;
+			if ( (this as Object).constructor == qb2BaseContactEvent )  qb2_throw(qb2_errors.ABSTRACT_CLASS_ERROR);
 		}
 		
 		public function get contactPoint():amPoint2d

@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package QuickB2.misc 
+package QuickB2.debugging.logging 
 {
 	/**
 	 * Just a central repository for all the runtime errors that QuickB2 throws if you're being naughty.

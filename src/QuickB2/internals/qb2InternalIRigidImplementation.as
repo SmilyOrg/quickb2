@@ -269,8 +269,8 @@ package QuickB2.internals
 		{
 			if ( _tang._actor )
 			{
-				 _tang._actor.x = _position.x;   _tang._actor.y = _position.y;
-				_tang._actor.rotation = _rotation * TO_DEG;
+				 _tang._actor.setPosition(_position);
+				_tang._actor.setRotation(_rotation * TO_DEG);
 			}
 		}
 		

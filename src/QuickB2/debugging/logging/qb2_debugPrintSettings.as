@@ -20,25 +20,39 @@
  * THE SOFTWARE.
  */
 
-package QuickB2.debugging 
+package QuickB2.debugging.logging 
 {
 	/**
 	 * ...
 	 * @author Doug Koellmer
 	 */
-	public class qb2_debugTraceSettings 
+	public class qb2_debugPrintSettings 
 	{
+		/// Default implementation of qb2IConsole for notifications.
+		public static var defaultNotificationPrinterClass:Class = qb2FlashPrinter;
+		
+		/// Default implementation of qb2IConsole for warnings.
+		public static var defaultWarningPrinterClass:Class = qb2FlashPrinter;
+		
+		public static var printerForNotifications:qb2IPrinter = null;
+		
+		public static var printerForWarnings:qb2IPrinter = null;
+		
+		public static var printNotifications:Boolean = false;
+		
+		public static var printWarnings:Boolean = false;
+		
 		/// The two characters indicating the beginning and end of a class trace.
-		public static var classEnclosures:String   = "[]";
+		public static var classBrackets:String   = "[]";
 		
 		/// The two characters indicating the beginning and end of the variable list of a class.
-		public static var varEnclosures:String     = "()";
+		public static var variableBrackets:String     = "()";
 		
 		/// The character(s) to signify a variable's value.
 		public static var equalityCharacter:String = "=";
 		
 		/// The character(s) delimiting the list of variables for a class.
-		public static var varDelimiter:String      = ", ";
+		public static var variableDelimiter:String      = ", ";
 		
 		/// Associates a list of class names to the variables that they should spit out for toString() calls.
 		public static const classToVariableMap:Object = 

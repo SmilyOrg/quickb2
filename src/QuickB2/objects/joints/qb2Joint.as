@@ -29,6 +29,11 @@ package QuickB2.objects.joints
 	import flash.display.*;
 	import QuickB2.*;
 	import QuickB2.debugging.*;
+	import QuickB2.debugging.drawing.qb2_debugDrawFlags;
+	import QuickB2.debugging.drawing.qb2_debugDrawSettings;
+	import QuickB2.debugging.logging.qb2_errors;
+	import QuickB2.debugging.logging.qb2_throw;
+	import QuickB2.debugging.logging.qb2_toString;
 	import QuickB2.events.*;
 	import QuickB2.misc.*;
 	import QuickB2.objects.*;
@@ -59,7 +64,7 @@ package QuickB2.objects.joints
 		
 		public function qb2Joint()
 		{
-			if ( (this as Object).constructor == qb2Joint )  throw qb2_errors.ABSTRACT_CLASS_ERROR;
+			if ( (this as Object).constructor == qb2Joint )  qb2_throw(qb2_errors.ABSTRACT_CLASS_ERROR);
 		}
 		
 		public function get b2_joint():b2Joint
@@ -339,6 +344,6 @@ package QuickB2.objects.joints
 		}
 		
 		public override function toString():String 
-			{  return qb2DebugTraceUtils.formatToString(this, "qb2Joint");  }
+			{  return qb2_toString(this, "qb2Joint");  }
 	}
 }

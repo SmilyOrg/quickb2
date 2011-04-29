@@ -20,33 +20,29 @@
  * THE SOFTWARE.
  */
 
-package QuickB2.stock.todo 
+package QuickB2.debugging.drawing
 {
-	import As3Math.geo2d.*;
-	import QuickB2.debugging.qb2_toString;
-	import QuickB2.objects.*;
-	import QuickB2.objects.tangibles.*;
-	
-	/** TODO: This should be like qb2SoftPoly, but for long narrow shapes.
-	 * 
-	 * @private
+	/**
+	 * ...
 	 * @author Doug Koellmer
-	 */	 
-	public class qb2SoftRod extends qb2Group
+	 */
+	public class qb2_debugDrawFlags 
 	{
-		public function qb2SoftRod(initBeg:amPoint2d, initEnd:amPoint2d, initWidth:Number = 10, initNumSegs:uint = 2, initMass:Number = 1, initContactGroupIndex:int = -1) 
-		{
-			set(initBeg, initEnd, initWidth, initNumSegs);
-			if ( initMass )  mass = initMass;
-			contactGroupIndex = initContactGroupIndex;
-		}
+		public static const OUTLINES:uint          = 0x00000001;
+		public static const FILLS:uint             = 0x00000002;
+		public static const CIRCLE_SPOKE_1:uint    = 0x00000004;
+		public static const CIRCLE_SPOKE_2:uint    = 0x00000008;
+		public static const CIRCLE_SPOKE_3:uint    = 0x00000010;
+		public static const CIRCLE_SPOKE_4:uint    = 0x00000020;
+		public static const CENTROIDS:uint         = 0x00000040;
+		public static const BOUND_BOXES:uint       = 0x00000080;
+		public static const BOUND_CIRCLES:uint     = 0x00000100;
+		public static const JOINTS:uint            = 0x00000200;
+		public static const POSITIONS:uint         = 0x00000400;
+		public static const VERTICES:uint          = 0x00000800;
+		public static const FRICTION_Z_POINTS:uint = 0x00001000;
+		public static const DECOMPOSITION:uint     = 0x00002000;
 		
-		public function set(newBeg:amPoint2d, newEnd:amPoint2d, newWidth:Number = 10, newNumSegs:uint = 2):void
-		{
-			
-		}
-		
-		public override function toString():String 
-			{  return qb2_toString.formatToString(this, "qb2SoftRod");  }
+		public static const CIRCLE_SPOKES:uint   = CIRCLE_SPOKE_1 | CIRCLE_SPOKE_2 | CIRCLE_SPOKE_3 | CIRCLE_SPOKE_4;
 	}
 }

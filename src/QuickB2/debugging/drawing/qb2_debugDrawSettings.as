@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package QuickB2.debugging
+package QuickB2.debugging.drawing
 {
 	/**
 	 * ...

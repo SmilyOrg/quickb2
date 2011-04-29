@@ -23,8 +23,6 @@ package QuickB2.internals
 		private static const DIST_TOLERANCE:Number = .001;
 		private static const INFINITE:Number = 1000000;
 		
-		private const intPoints:Vector.<amPoint2d> = new Vector.<amPoint2d>();
-		
 		qb2_friend static function intersectsLine(rootTang:qb2Tangible, sliceLine:amLine2d, outputPoints:Vector.<amPoint2d> = null, orderPoints:Boolean = true):Boolean
 		{
 			traverser.root = rootTang;

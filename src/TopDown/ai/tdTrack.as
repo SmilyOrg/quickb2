@@ -26,6 +26,7 @@ package TopDown.ai
 	import As3Math.geo2d.*;
 	import flash.display.*;
 	import QuickB2.debugging.*;
+	import QuickB2.debugging.drawing.qb2_debugDrawSettings;
 	import QuickB2.objects.*;
 	import surrender.srGraphics2d;
 	import TopDown.*;

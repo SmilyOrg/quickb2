@@ -27,6 +27,8 @@ package QuickB2.stock
 	import flash.utils.*;
 	import QuickB2.*;
 	import QuickB2.debugging.*;
+	import QuickB2.debugging.drawing.qb2_debugDrawSettings;
+	import QuickB2.debugging.logging.qb2_toString;
 	import QuickB2.events.*;
 	import QuickB2.internals.*;
 	import QuickB2.objects.*;
@@ -240,6 +242,6 @@ package QuickB2.stock
 		}
 		
 		public override function toString():String 
-			{  return qb2DebugTraceUtils.formatToString(this, "qb2TripSensor");  }
+			{  return qb2_toString(this, "qb2TripSensor");  }
 	}
 }

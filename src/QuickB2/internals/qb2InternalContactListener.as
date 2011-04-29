@@ -28,6 +28,10 @@ package QuickB2.internals
 	import Box2DAS.Dynamics.*;
 	import Box2DAS.Dynamics.Contacts.*;
 	import flash.utils.*;
+	import QuickB2.debugging.logging.qb2_assert;
+	import QuickB2.debugging.logging.qb2_notifications;
+	import QuickB2.debugging.logging.qb2_notify;
+	import QuickB2.debugging.QB2_DEBUG;
 	import QuickB2.events.*;
 	import QuickB2.objects.*;
 	import QuickB2.objects.tangibles.*;
@@ -120,9 +124,15 @@ package QuickB2.internals
 		}
 		
 		public override function BeginContact(contact:b2Contact):void
-		{trace("ADDED");
+		{
 			var shape1:qb2Shape = contact.GetFixtureA().GetUserData() as qb2Shape;
 			var shape2:qb2Shape = contact.GetFixtureB().GetUserData() as qb2Shape;
+
+			if ( QB2_DEBUG )
+			{
+				qb2_notify(qb2_notifications.CONTACT_BEGIN);
+				qb2_assert(shape1 && shape2);
+			}
 			
 			if ( shape1.flaggedForDestroy || shape2.flaggedForDestroy )  return;
 			
@@ -132,9 +142,15 @@ package QuickB2.internals
 		}
 		
 		public override function EndContact(contact:b2Contact):void
-		{//trace("REMOVED");
+		{
 			var shape1:qb2Shape = contact.GetFixtureA().GetUserData() as qb2Shape;
 			var shape2:qb2Shape = contact.GetFixtureB().GetUserData() as qb2Shape;
+			
+			if ( QB2_DEBUG )
+			{
+				qb2_notify(qb2_notifications.CONTACT_END);
+				qb2_assert(shape1 && shape2);
+			}
 			
 			if ( shape1.flaggedForDestroy || shape2.flaggedForDestroy )  return;
 			
@@ -144,9 +160,15 @@ package QuickB2.internals
 		}
 		
 		public override function PreSolve(contact:b2Contact, oldManifold:b2Manifold):void
-		{//trace("PRESOLVE");
+		{
 			var shape1:qb2Shape = contact.GetFixtureA().GetUserData() as qb2Shape;
 			var shape2:qb2Shape = contact.GetFixtureB().GetUserData() as qb2Shape;
+			
+			if ( QB2_DEBUG )
+			{
+				qb2_notify(qb2_notifications.CONTACT_PRE_SOLVE);
+				qb2_assert(shape1 && shape2);
+			}
 			
 			if ( shape1.flaggedForDestroy || shape2.flaggedForDestroy )  return;
 			
@@ -156,9 +178,15 @@ package QuickB2.internals
 		}
 		
 		public override function PostSolve(contact:b2Contact, impulse:b2ContactImpulse):void
-		{//trace("POSTSOLVE");
+		{
 			var shape1:qb2Shape = contact.GetFixtureA().GetUserData() as qb2Shape;
 			var shape2:qb2Shape = contact.GetFixtureB().GetUserData() as qb2Shape;
+			
+			if ( QB2_DEBUG )
+			{
+				qb2_notify(qb2_notifications.CONTACT_POST_SOLVE);
+				qb2_assert(shape1 && shape2);
+			}
 			
 			if ( shape1.flaggedForDestroy || shape2.flaggedForDestroy )  return;
 			

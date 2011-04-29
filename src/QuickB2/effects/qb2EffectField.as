@@ -28,6 +28,10 @@ package QuickB2.effects
 	import flash.utils.*;
 	import QuickB2.*;
 	import QuickB2.debugging.*;
+	import QuickB2.debugging.drawing.qb2_debugDrawSettings;
+	import QuickB2.debugging.logging.qb2_errors;
+	import QuickB2.debugging.logging.qb2_throw;
+	import QuickB2.debugging.logging.qb2_toString;
 	import QuickB2.events.*;
 	import QuickB2.misc.*;
 	import QuickB2.objects.*;
@@ -74,7 +78,7 @@ package QuickB2.effects
 			
 			addContainerEventListeners();
 			
-			if ( (this as Object).constructor == qb2EffectField )  throw qb2_errors.ABSTRACT_CLASS_ERROR;
+			if ( (this as Object).constructor == qb2EffectField )  qb2_throw(qb2_errors.ABSTRACT_CLASS_ERROR);
 		}
 		
 		public function apply(toTangible:qb2Tangible):void
@@ -446,6 +450,6 @@ package QuickB2.effects
 		}
 
 		public override function toString():String 
-			{  return qb2DebugTraceUtils.formatToString(this, "qb2EffectField");  }
+			{  return qb2_toString(this, "qb2EffectField");  }
 	}
 }

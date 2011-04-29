@@ -26,6 +26,7 @@ package QuickB2.stock
 	import As3Math.general.*;
 	import As3Math.geo2d.*;
 	import QuickB2.debugging.*;
+	import QuickB2.debugging.logging.qb2_toString;
 	import QuickB2.events.*;
 	import QuickB2.misc.*;
 	import QuickB2.objects.*;
@@ -127,6 +128,6 @@ package QuickB2.stock
 		}
 		
 		public override function toString():String 
-			{  return qb2DebugTraceUtils.formatToString(this, "qb2FollowBody");  }
+			{  return qb2_toString(this, "qb2FollowBody");  }
 	}
 }

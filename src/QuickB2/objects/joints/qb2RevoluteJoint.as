@@ -31,6 +31,9 @@ package QuickB2.objects.joints
 	import flash.display.*;
 	import QuickB2.*;
 	import QuickB2.debugging.*;
+	import QuickB2.debugging.logging.qb2_errors;
+	import QuickB2.debugging.logging.qb2_throw;
+	import QuickB2.debugging.logging.qb2_toString;
 	import QuickB2.misc.*;
 	import QuickB2.objects.*;
 	import QuickB2.objects.tangibles.*;
@@ -120,7 +123,7 @@ package QuickB2.objects.joints
 			if ( propertyName == qb2_props.MAX_TORQUE )
 			{
 				if ( !callingFromUpdate && optimizedSpring && springK )
-					throw qb2_errors.OPT_SPRING_ERROR;
+					qb2_throw(qb2_errors.OPT_SPRING_ERROR);
 			
 				joint.SetMaxMotorTorque(value);
 				joint.EnableMotor(value ? true : false);
@@ -130,7 +133,7 @@ package QuickB2.objects.joints
 			else if ( propertyName == qb2_props.TARGET_SPEED )
 			{
 				if ( !callingFromUpdate && optimizedSpring && springK )
-					throw qb2_errors.OPT_SPRING_ERROR;
+					qb2_throw(qb2_errors.OPT_SPRING_ERROR);
 				
 				joint.SetMotorSpeed(value);
 				wakeUpAttached();
@@ -391,6 +394,6 @@ package QuickB2.objects.joints
 		}
 		
 		public override function toString():String 
-			{  return qb2DebugTraceUtils.formatToString(this, "qb2RevoluteJoint");  }
+			{  return qb2_toString(this, "qb2RevoluteJoint");  }
 	}
 }

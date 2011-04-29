@@ -23,7 +23,8 @@
 package TopDown.ai.controllers 
 {	
 	import QuickB2.*;
-	import QuickB2.misc.qb2_errors;
+	import QuickB2.debugging.logging.qb2_errors;
+	import QuickB2.debugging.logging.qb2_throw;
 	import TopDown.*;
 	import TopDown.ai.*;
 	import TopDown.ai.brains.*;
@@ -42,7 +43,7 @@ package TopDown.ai.controllers
 		{
 			if ( (this as Object).constructor == tdController )
 			{
-				throw qb2_errors.ABSTRACT_CLASS_ERROR;
+				qb2_throw(qb2_errors.ABSTRACT_CLASS_ERROR);
 			}
 		}
 		

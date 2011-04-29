@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010 Johnson Center for Simulation at Pine Technical College
+ * Copyright (c) 2011 Doug Koellmer
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,29 +20,18 @@
  * THE SOFTWARE.
  */
 
-package QuickB2.debugging
+package QuickB2.debugging.logging 
 {
 	/**
-	 * ...
+	 * An implementation of qb2IPrinter that just wraps trace().
+	 * 
 	 * @author Doug Koellmer
 	 */
-	public class qb2_debugDrawFlags 
+	public class qb2FlashPrinter implements qb2IPrinter
 	{
-		public static const OUTLINES:uint          = 0x00000001;
-		public static const FILLS:uint             = 0x00000002;
-		public static const CIRCLE_SPOKE_1:uint    = 0x00000004;
-		public static const CIRCLE_SPOKE_2:uint    = 0x00000008;
-		public static const CIRCLE_SPOKE_3:uint    = 0x00000010;
-		public static const CIRCLE_SPOKE_4:uint    = 0x00000020;
-		public static const CENTROIDS:uint         = 0x00000040;
-		public static const BOUND_BOXES:uint       = 0x00000080;
-		public static const BOUND_CIRCLES:uint     = 0x00000100;
-		public static const JOINTS:uint            = 0x00000200;
-		public static const POSITIONS:uint         = 0x00000400;
-		public static const VERTICES:uint          = 0x00000800;
-		public static const FRICTION_Z_POINTS:uint = 0x00001000;
-		public static const DECOMPOSITION:uint     = 0x00002000;
-		
-		public static const CIRCLE_SPOKES:uint   = CIRCLE_SPOKE_1 | CIRCLE_SPOKE_2 | CIRCLE_SPOKE_3 | CIRCLE_SPOKE_4;
+		public function print(... args):void
+		{
+			trace.apply(null, args);
+		}
 	}
 }

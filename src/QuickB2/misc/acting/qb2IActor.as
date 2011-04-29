@@ -22,24 +22,28 @@
 
 package QuickB2.misc.acting 
 {
+	import As3Math.geo2d.amPoint2d;
 	/**
 	 * ...
 	 * @author Doug Koellmer
 	 */
 	public interface qb2IActor 
 	{
-		function get x():Number;
-		function set x(value:Number):void;
+		function getX():Number;
+		function setX(value:Number):qb2IActor;
 		
-		function get y():Number;
-		function set y(value:Number):void;
+		function getY():Number;
+		function setY(value:Number):qb2IActor;
 		
-		function get rotation():Number;
-		function set rotation(value:Number):void;
+		function getPosition():amPoint2d;
+		function setPosition(point:amPoint2d):qb2IActor;
 		
-		function scaleBy(xValue:Number, yValue:Number):void
+		function getRotation():Number;
+		function setRotation(value:Number):qb2IActor;
 		
-		function get parentActor():qb2IActorContainer;
+		function scaleBy(xValue:Number, yValue:Number):qb2IActor
+		
+		function getParentActor():qb2IActorContainer;
 		
 		function clone(deep:Boolean = true):qb2IActor;
 	}

@@ -26,6 +26,8 @@ package TopDown.ai.controllers
 	import flash.events.*;
 	import flash.ui.*;
 	import QuickB2.*;
+	import QuickB2.debugging.logging.qb2_errors;
+	import QuickB2.debugging.logging.qb2_throw;
 	import QuickB2.misc.*;
 	
 	import TopDown.*;
@@ -58,7 +60,7 @@ package TopDown.ai.controllers
 			
 			if ( (this as Object).constructor == tdKeyboardController )
 			{
-				throw qb2_errors.ABSTRACT_CLASS_ERROR;
+				qb2_throw(qb2_errors.ABSTRACT_CLASS_ERROR);
 			}
 		}
 		

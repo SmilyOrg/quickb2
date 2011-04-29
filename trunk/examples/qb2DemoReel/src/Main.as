@@ -11,6 +11,8 @@
 	import flash.text.TextFieldAutoSize;
 	import flash.utils.*;
 	import QuickB2.debugging.*;
+	import QuickB2.debugging.drawing.qb2_debugDrawSettings;
+	import QuickB2.debugging.gui.qb2DebugPanel;
 	import QuickB2.effects.qb2EffectField;
 	import QuickB2.effects.qb2GravityField;
 	import QuickB2.events.qb2UpdateEvent;

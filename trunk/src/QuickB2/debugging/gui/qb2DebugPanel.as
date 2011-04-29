@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package QuickB2.debugging 
+package QuickB2.debugging.gui 
 {
 	import com.bit101.components.*;
 	import flash.display.*;
@@ -29,6 +29,8 @@ package QuickB2.debugging
 	import flash.system.*;
 	import flash.utils.*;
 	import QuickB2.*;
+	import QuickB2.debugging.drawing.qb2_debugDrawFlags;
+	import QuickB2.debugging.drawing.qb2_debugDrawSettings;
 	import QuickB2.objects.*;
 	import QuickB2.objects.tangibles.*;
 	

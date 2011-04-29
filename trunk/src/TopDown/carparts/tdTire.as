@@ -27,6 +27,8 @@ package TopDown.carparts
 	import As3Math.geo2d.*;
 	import flash.events.*;
 	import QuickB2.debugging.*;
+	import QuickB2.debugging.drawing.qb2_debugDrawSettings;
+	import QuickB2.debugging.logging.qb2_toString;
 	import QuickB2.events.*;
 	import QuickB2.misc.*;
 	import QuickB2.objects.*;
@@ -140,9 +142,8 @@ package TopDown.carparts
 		{
 			if ( !actor )  return;
 			
-			actor.x = position.x;
-			actor.y = position.y;
-			actor.rotation = _currTurnAngle * TO_DEG;
+			actor.setPosition(position);
+			actor.setRotation(_currTurnAngle * TO_DEG);
 		}
 		
 		public function get linearVelocity():amVector2d
@@ -448,7 +449,7 @@ package TopDown.carparts
 		
 		public override function toString():String
 		{
-			return qb2DebugTraceUtils.formatToStringWithCustomVars(this, "position", "radius", "massShare");
+			return qb2_toString(this, "tdTire", ["position", "radius", "massShare"]);
 		}
 	}
 }

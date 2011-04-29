@@ -37,6 +37,10 @@ package QuickB2.objects.tangibles
 	import flash.utils.*;
 	import QuickB2.*;
 	import QuickB2.debugging.*;
+	import QuickB2.debugging.drawing.qb2_debugDrawFlags;
+	import QuickB2.debugging.drawing.qb2_debugDrawSettings;
+	import QuickB2.debugging.logging.qb2_errors;
+	import QuickB2.debugging.logging.qb2_throw;
 	import QuickB2.effects.*;
 	import QuickB2.events.*;
 	import QuickB2.internals.*;
@@ -87,7 +91,7 @@ package QuickB2.objects.tangibles
 		
 		private function init():void
 		{
-			if ( (this as Object).constructor == qb2Tangible )  throw qb2_errors.ABSTRACT_CLASS_ERROR;
+			if ( (this as Object).constructor == qb2Tangible )  qb2_throw(qb2_errors.ABSTRACT_CLASS_ERROR);
 			
 			//--- Set up default values for various properties.
 			turnFlagOn(qb2_flags.IS_DEBUG_DRAGGABLE | qb2_flags.ALLOW_SLEEPING | qb2_flags.ALLOW_COMPLEX_POLYGONS, false);
@@ -935,9 +939,8 @@ package QuickB2.objects.tangibles
 		
 		public function slice(laser:amLine2d, outputIntPoints:Vector.<amPoint2d> = null):Vector.<qb2Tangible>
 		{
-			return (_sliceUtility ? _sliceUtility : _sliceUtility = new qb2InternalSliceUtility()).slice(this, laser, outputIntPoints);
+			return qb2InternalSliceUtility.slice(this, laser, outputIntPoints);
 		}
-		qb2_friend var _sliceUtility:qb2InternalSliceUtility = null;
 		
 		public function intersectsLine(line:amLine2d, outputIntPoints:Vector.<amPoint2d> = null, orderPoints:Boolean = true):Boolean
 		{

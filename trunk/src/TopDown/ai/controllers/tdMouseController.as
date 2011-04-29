@@ -47,7 +47,7 @@ package TopDown.ai.controllers
 			
 			if ( (this as Object).constructor == tdMouseController )
 			{
-				throw qb2_errors.ABSTRACT_CLASS_ERROR;
+				qb2_throw(qb2_errors.ABSTRACT_CLASS_ERROR;
 			}
 		}
 		

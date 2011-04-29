@@ -31,6 +31,7 @@ package QuickB2.objects.tangibles
 	import flash.display.*;
 	import QuickB2.*;
 	import QuickB2.debugging.*;
+	import QuickB2.debugging.logging.qb2_toString;
 	import QuickB2.events.*;
 	import QuickB2.misc.*;
 	import QuickB2.objects.*;
@@ -203,6 +204,6 @@ package QuickB2.objects.tangibles
 			{  return this as qb2Tangible;  }
 			
 		public override function toString():String 
-			{  return qb2DebugTraceUtils.formatToString(this, "qb2Body");  }
+			{  return qb2_toString(this, "qb2Body");  }
 	}
 }

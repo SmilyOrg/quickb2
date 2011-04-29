@@ -27,6 +27,8 @@ package QuickB2.objects
 	import flash.events.*;
 	import flash.utils.*;
 	import QuickB2.*;
+	import QuickB2.debugging.logging.qb2_errors;
+	import QuickB2.debugging.logging.qb2_throw;
 	import QuickB2.events.*;
 	import QuickB2.internals.*;
 	import QuickB2.loaders.proxies.qb2ProxyObject;
@@ -64,7 +66,7 @@ package QuickB2.objects
 		
 		private function init():void
 		{
-			if ( (this as Object).constructor == qb2Object )  throw qb2_errors.ABSTRACT_CLASS_ERROR;
+			if ( (this as Object).constructor == qb2Object )  qb2_throw(qb2_errors.ABSTRACT_CLASS_ERROR);
 			
 			turnFlagOn(qb2_flags.JOINS_IN_DEBUG_DRAWING | qb2_flags.JOINS_IN_DEEP_CLONING | qb2_flags.JOINS_IN_UPDATE_CHAIN, false);
 			
@@ -234,7 +236,7 @@ package QuickB2.objects
 		{
 			if ( flagOrFlags & qb2_flags.RESERVED_FLAGS )
 			{
-				throw qb2_errors.ILLEGAL_FLAG_ASSIGNMENT;
+				qb2_throw(qb2_errors.ILLEGAL_FLAG_ASSIGNMENT);
 			}
 			
 			var oldFlags:uint = _flags;
@@ -347,7 +349,7 @@ package QuickB2.objects
 			{
 				if ( !_currPropertyBit )
 				{
-					throw qb2_errors.NUMBER_PROPERTY_SLOTS_FULL;
+					qb2_throw(qb2_errors.NUMBER_PROPERTY_SLOTS_FULL);
 				}
 				
 				_propertyBits[propertyName] = _currPropertyBit;
@@ -875,15 +877,15 @@ package QuickB2.objects
 		
 		qb2_friend function removeActor():void
 		{
-			if ( _actor && _actor.parentActor && _parent && _parent._actor == _actor.parentActor )
+			if ( _actor && _actor.getParentActor() && _parent && _parent._actor == _actor.getParentActor() )
 			{
-				_actor.parentActor.removeActor(_actor);
+				_actor.getParentActor().removeActor(_actor);
 			}
 		}
 		
 		qb2_friend function addActor():void
 		{
-			if ( _actor && !_actor.parentActor && _parent )
+			if ( _actor && !_actor.getParentActor() && _parent )
 			{
 				if( _parent._actor && (_parent._actor as qb2IActorContainer) )
 					(_parent._actor as qb2IActorContainer).addActor(_actor);

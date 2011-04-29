@@ -26,6 +26,7 @@ package QuickB2.effects
 	import As3Math.geo2d.amPoint2d;
 	import As3Math.geo2d.amVector2d;
 	import QuickB2.debugging.*;
+	import QuickB2.debugging.logging.qb2_toString;
 	import QuickB2.objects.qb2Object;
 	import QuickB2.objects.tangibles.qb2IRigidObject;
 	
@@ -91,6 +92,6 @@ package QuickB2.effects
 		}
 
 		public override function toString():String 
-			{  return qb2DebugTraceUtils.formatToString(this, "qb2GravityWellField");  }
+			{  return qb2_toString(this, "qb2GravityWellField");  }
 	}
 }

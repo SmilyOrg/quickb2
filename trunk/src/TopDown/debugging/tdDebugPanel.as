@@ -27,6 +27,7 @@ package TopDown.debugging
 	import flash.events.*;
 	import flash.net.*;
 	import QuickB2.debugging.*;
+	import QuickB2.debugging.gui.qb2DebugPanel;
 	import QuickB2.objects.*;
 	import QuickB2.objects.tangibles.*;
 	

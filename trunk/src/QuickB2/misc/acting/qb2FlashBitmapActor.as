@@ -22,6 +22,7 @@
 
 package QuickB2.misc.acting 
 {
+	import As3Math.geo2d.amPoint2d;
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	
@@ -30,18 +31,39 @@ package QuickB2.misc.acting
 	 * @author Doug Koellmer
 	 */
 	public class qb2FlashBitmapActor extends Bitmap implements qb2IActor
-	{
+	{		
 		public function qb2FlashBitmapActor (bitmapData:BitmapData = null, pixelSnapping:String = "auto", smoothing:Boolean = false)
 		{
 			super(bitmapData, pixelSnapping, smoothing);
 		}
 		
-		public function scaleBy(xValue:Number, yValue:Number):void
+		public function getX():Number
+			{  return x;  }
+		public function setX(value:Number):qb2IActor
+			{  x = value;  return this;  }
+		
+		public function getY():Number
+			{  return y;  }
+		public function setY(value:Number):qb2IActor
+			{  y = value;  return this;  }
+		
+		public function getPosition():amPoint2d
+			{  return new amPoint2d(x, y);  }
+		public function setPosition(point:amPoint2d):qb2IActor
+			{  x = point.x;  y = point.y;  return this;  }
+		
+		public function getRotation():Number
+			{  return rotation;  }
+		public function setRotation(value:Number):qb2IActor
+			{  rotation = value;  return this;  }
+		
+		public function scaleBy(xValue:Number, yValue:Number):qb2IActor
 		{
 			qb2_flashActorUtils.scaleActor(this, xValue, yValue);
+			return this;
 		}
 		
-		public function get parentActor():qb2IActorContainer
+		public function getParentActor():qb2IActorContainer
 		{
 			return parent as qb2IActorContainer;
 		}

@@ -27,6 +27,7 @@ package QuickB2.stock
 	import flash.display.*;
 	import flash.events.*;
 	import QuickB2.debugging.*;
+	import QuickB2.debugging.logging.qb2_toString;
 	import QuickB2.misc.*;
 	import QuickB2.objects.tangibles.*;
 	
@@ -119,6 +120,6 @@ package QuickB2.stock
 		private var _stage:Stage;
 		
 		public override function toString():String 
-			{  return qb2DebugTraceUtils.formatToString(this, "qb2StageWalls");  }
+			{  return qb2_toString(this, "qb2StageWalls");  }
 	}
 }

@@ -22,11 +22,11 @@
 	 */
 	public class qb2InternalSliceUtility 
 	{
-		private const traverser:qb2TreeTraverser = new qb2TreeTraverser();
-		private const intPoints:Vector.<amPoint2d> = new Vector.<amPoint2d>();
-		private const INFINITE:Number = 1000000;
+		private static const traverser:qb2TreeTraverser = new qb2TreeTraverser();
+		private static const intPoints:Vector.<amPoint2d> = new Vector.<amPoint2d>();
+		private static const INFINITE:Number = 1000000;
 		
-		qb2_friend function slice(rootTang:qb2Tangible, sliceLine:amLine2d, outputPoints:Vector.<amPoint2d>):Vector.<qb2Tangible>
+		qb2_friend static function slice(rootTang:qb2Tangible, sliceLine:amLine2d, outputPoints:Vector.<amPoint2d>):Vector.<qb2Tangible>
 		{
 			var infiniteBeg:amPoint2d = sliceLine.point1.translatedBy(sliceLine.direction.negate().scaleBy(INFINITE));
 			var distanceDict:Dictionary = new Dictionary(true); // stores point->point's distance from infiniteBeg
@@ -417,7 +417,7 @@
 			return toReturn;
 		}
 		
-		private function registerPolyEdit(poly:qb2PolygonShape, editArray:Array, point:amPoint2d, index:int):void
+		private static function registerPolyEdit(poly:qb2PolygonShape, editArray:Array, point:amPoint2d, index:int):void
 		{
 			if ( !(poly.sliceFlags & qb2_sliceFlags.CHANGES_OWN_GEOMETRY) )  return;
 			
@@ -445,7 +445,7 @@
 			}
 		}
 		
-		private function polygonizeArc(circleShape:qb2CircleShape, startPoint:amPoint2d, sweepAngle:Number):qb2PolygonShape
+		private static function polygonizeArc(circleShape:qb2CircleShape, startPoint:amPoint2d, sweepAngle:Number):qb2PolygonShape
 		{
 			var circum:Number = circleShape.perimeter;
 			var ratio:Number = sweepAngle / (AM_PI * 2);
@@ -481,13 +481,13 @@
 			return poly;
 		}
 		
-		private var utilPoint:amPoint2d = new amPoint2d();
-		private var utilLine:amLine2d = new amLine2d();
-		private var utilArray:Vector.<amPoint2d> = new Vector.<amPoint2d>();
+		private static var utilPoint:amPoint2d = new amPoint2d();
+		private static var utilLine:amLine2d = new amLine2d();
+		private static var utilArray:Vector.<amPoint2d> = new Vector.<amPoint2d>();
 		
-		private const INCOMING:String = "incoming";
-		private const OUTGOING:String = "outgoing";
-		private const INT_TOLERANCE:Number = .00000001;
-		private const DIST_TOLERANCE:Number = .001;
+		private static const INCOMING:String = "incoming";
+		private static const OUTGOING:String = "outgoing";
+		private static const INT_TOLERANCE:Number = .00000001;
+		private static const DIST_TOLERANCE:Number = .001;
 	}
 }

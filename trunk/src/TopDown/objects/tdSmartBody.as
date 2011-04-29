@@ -23,8 +23,9 @@
 package TopDown.objects
 {
 	import QuickB2.*;
+	import QuickB2.debugging.logging.qb2_errors;
+	import QuickB2.debugging.logging.qb2_throw;
 	import QuickB2.events.qb2ContainerEvent;
-	import QuickB2.misc.qb2_errors;
 	import QuickB2.objects.*;
 	import QuickB2.objects.tangibles.*;
 	import TopDown.*;
@@ -50,7 +51,7 @@ package TopDown.objects
 		{
 			if ( Object(this).constructor == tdSmartBody )
 			{
-				throw qb2_errors.ABSTRACT_CLASS_ERROR;
+				qb2_throw(qb2_errors.ABSTRACT_CLASS_ERROR);
 			}
 			
 			addEventListener(qb2ContainerEvent.ADDED_OBJECT,   justAddedObject, null, true);

@@ -26,6 +26,7 @@ package QuickB2.events
 	import flash.events.*;
 	import QuickB2.*;
 	import QuickB2.debugging.*;
+	import QuickB2.debugging.logging.qb2_toString;
 	import QuickB2.objects.*;
 	import QuickB2.objects.tangibles.*;
 	import revent.rEvent;
@@ -73,6 +74,6 @@ package QuickB2.events
 		}
 		
 		public override function toString():String 
-			{  return qb2DebugTraceUtils.formatToString(this, "qb2SubContactEvent");  }
+			{  return qb2_toString(this, "qb2SubContactEvent");  }
 	}
 }

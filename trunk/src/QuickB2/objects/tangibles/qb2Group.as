@@ -26,6 +26,7 @@ package QuickB2.objects.tangibles
 	import flash.display.*;
 	import QuickB2.*;
 	import QuickB2.debugging.*;
+	import QuickB2.debugging.logging.qb2_toString;
 	import QuickB2.misc.*;
 	import QuickB2.objects.*;
 	import QuickB2.objects.tangibles.*;
@@ -205,7 +206,7 @@ package QuickB2.objects.tangibles
 						{
 							if ( tang._actor )
 							{
-								if ( !killBox.containsPoint(new amPoint2d(tang._actor.x, tang._actor.y)) )
+								if ( !killBox.containsPoint(tang._actor.getPosition()) )
 								{
 									removeObjectAt(i--);
 									continue;
@@ -585,6 +586,6 @@ package QuickB2.objects.tangibles
 		}
 		
 		public override function toString():String 
-			{  return qb2DebugTraceUtils.formatToString(this, "qb2Group");  }
+			{  return qb2_toString(this, "qb2Group");  }
 	}
 }

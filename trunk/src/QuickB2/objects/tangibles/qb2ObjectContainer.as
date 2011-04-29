@@ -26,6 +26,8 @@ package QuickB2.objects.tangibles
 	import flash.display.*;
 	import flash.utils.*;
 	import QuickB2.*;
+	import QuickB2.debugging.logging.qb2_errors;
+	import QuickB2.debugging.logging.qb2_throw;
 	import QuickB2.events.*;
 	import QuickB2.internals.*;
 	import QuickB2.misc.*;
@@ -50,7 +52,7 @@ package QuickB2.objects.tangibles
 		
 		public function qb2ObjectContainer() 
 		{
-			if ( (this as Object).constructor == qb2ObjectContainer )  throw qb2_errors.ABSTRACT_CLASS_ERROR;
+			if ( (this as Object).constructor == qb2ObjectContainer )  qb2_throw(qb2_errors.ABSTRACT_CLASS_ERROR);
 		}
 		
 		public function isAncestorOf(possibleDescendant:qb2Object):Boolean
@@ -221,7 +223,7 @@ package QuickB2.objects.tangibles
 			{
 				var object:qb2Object = someObjects[i];
 				
-				if ( object._parent )  throw qb2_errors.ALREADY_HAS_PARENT_ERROR;
+				if ( object._parent )  qb2_throw(qb2_errors.ALREADY_HAS_PARENT_ERROR);
 				
 				var tang:qb2Tangible = object as qb2Tangible;
 				
@@ -386,7 +388,7 @@ package QuickB2.objects.tangibles
 		{
 			if ( object._parent != this )
 			{
-				throw qb2_errors.WRONG_PARENT;
+				qb2_throw(qb2_errors.WRONG_PARENT);
 			}
 			
 			var origIndex:int = _objects.indexOf(object);

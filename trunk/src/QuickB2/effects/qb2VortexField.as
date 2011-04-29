@@ -98,7 +98,7 @@ package QuickB2.effects
 		}
 		
 		public override function toString():String
-			{  return qb2DebugTraceUtils.formatToString(this, "qb2VortexField");  }
+			{  return qb2_toString.formatToString(this, "qb2VortexField");  }
 		
 	}
 }

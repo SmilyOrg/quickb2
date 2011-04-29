@@ -28,6 +28,7 @@ package QuickB2.effects
 	import Box2DAS.Common.V2;
 	import flash.utils.Dictionary;
 	import QuickB2.debugging.*;
+	import QuickB2.debugging.logging.qb2_toString;
 	import QuickB2.events.qb2UpdateEvent;
 	import QuickB2.objects.qb2Object;
 	import QuickB2.objects.tangibles.qb2IRigidObject;
@@ -118,7 +119,7 @@ package QuickB2.effects
 		}
 		
 		public override function toString():String 
-			{  return qb2DebugTraceUtils.formatToString(this, "qb2PlanetaryGravityField");  }
+			{  return qb2_toString(this, "qb2PlanetaryGravityField");  }
 		
 	}
 }

@@ -26,6 +26,7 @@ package QuickB2.stock
 	import flash.utils.*;
 	import QuickB2.*;
 	import QuickB2.debugging.*;
+	import QuickB2.debugging.drawing.qb2_debugDrawSettings;
 	import QuickB2.events.*;
 	import QuickB2.objects.*;
 	import QuickB2.objects.tangibles.*;

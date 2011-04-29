@@ -23,6 +23,8 @@
 package TopDown.ai.brains
 {
 	import QuickB2.*;
+	import QuickB2.debugging.logging.qb2_errors;
+	import QuickB2.debugging.logging.qb2_throw;
 	import QuickB2.events.*;
 	import QuickB2.misc.*;
 	import QuickB2.objects.*;
@@ -39,8 +41,7 @@ package TopDown.ai.brains
 	{	
 		public function tdBrain()
 		{
-			if ( Object(this).constructor == tdBrain )
-					throw qb2_errors.ABSTRACT_CLASS_ERROR;
+			if ( Object(this).constructor == tdBrain )  qb2_throw(qb2_errors.ABSTRACT_CLASS_ERROR);
 
 			turnFlagOff(qb2_flags.JOINS_IN_DEEP_CLONING);
 		}

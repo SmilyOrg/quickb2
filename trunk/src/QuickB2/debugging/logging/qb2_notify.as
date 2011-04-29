@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010 Johnson Center for Simulation at Pine Technical College
+ * Copyright (c) 2011 Doug Koellmer
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,33 +20,21 @@
  * THE SOFTWARE.
  */
 
-package QuickB2.stock.todo 
+package QuickB2.debugging.logging 
 {
-	import As3Math.geo2d.*;
-	import QuickB2.debugging.qb2_toString;
-	import QuickB2.objects.*;
-	import QuickB2.objects.tangibles.*;
-	
-	/** TODO: This should be like qb2SoftPoly, but for long narrow shapes.
-	 * 
-	 * @private
+	/**
+	 * ...
 	 * @author Doug Koellmer
-	 */	 
-	public class qb2SoftRod extends qb2Group
+	 */
+	public function qb2_notify(... args):void
 	{
-		public function qb2SoftRod(initBeg:amPoint2d, initEnd:amPoint2d, initWidth:Number = 10, initNumSegs:uint = 2, initMass:Number = 1, initContactGroupIndex:int = -1) 
+		if ( !qb2_debugPrintSettings.printNotifications )  return;
+		
+		if ( !qb2_debugPrintSettings.printerForNotifications )
 		{
-			set(initBeg, initEnd, initWidth, initNumSegs);
-			if ( initMass )  mass = initMass;
-			contactGroupIndex = initContactGroupIndex;
+			qb2_debugPrintSettings.printerForNotifications = new qb2_debugPrintSettings.defaultNotificationPrinterClass as qb2IPrinter;
 		}
 		
-		public function set(newBeg:amPoint2d, newEnd:amPoint2d, newWidth:Number = 10, newNumSegs:uint = 2):void
-		{
-			
-		}
-		
-		public override function toString():String 
-			{  return qb2_toString.formatToString(this, "qb2SoftRod");  }
+		qb2_debugPrintSettings.printerForNotifications.print.apply(null, args);
 	}
 }

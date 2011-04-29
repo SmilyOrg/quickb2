@@ -23,7 +23,7 @@
 package QuickB2.stock.todo 
 {
 	import As3Math.geo2d.*;
-	import QuickB2.debugging.qb2DebugTraceUtils;
+	import QuickB2.debugging.qb2_toString;
 	import QuickB2.objects.*;
 	import QuickB2.objects.tangibles.*;
 	
@@ -51,6 +51,6 @@ package QuickB2.stock.todo
 		}
 		
 		public override function toString():String 
-			{  return qb2DebugTraceUtils.formatToString(this, "qb2Chain");  }
+			{  return qb2_toString.formatToString(this, "qb2Chain");  }
 	}
 }

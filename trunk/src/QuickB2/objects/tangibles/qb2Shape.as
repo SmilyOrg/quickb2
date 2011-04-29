@@ -34,6 +34,10 @@ package QuickB2.objects.tangibles
 	import flash.utils.*;
 	import QuickB2.*;
 	import QuickB2.debugging.*;
+	import QuickB2.debugging.drawing.qb2_debugDrawFlags;
+	import QuickB2.debugging.drawing.qb2_debugDrawSettings;
+	import QuickB2.debugging.logging.qb2_errors;
+	import QuickB2.debugging.logging.qb2_throw;
 	import QuickB2.misc.*;
 	import QuickB2.objects.*;
 	import QuickB2.objects.joints.*;
@@ -64,7 +68,7 @@ package QuickB2.objects.tangibles
 		
 		private function init():void
 		{
-			if ( (this as Object).constructor == qb2Shape )  throw qb2_errors.ABSTRACT_CLASS_ERROR;
+			if ( (this as Object).constructor == qb2Shape )  qb2_throw(qb2_errors.ABSTRACT_CLASS_ERROR);
 			
 			turnFlagOn(qb2_flags.ALLOW_COMPLEX_POLYGONS, false); // for the "convertToPoly" function, this should be defined for circles and polys.
 		}

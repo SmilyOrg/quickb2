@@ -30,7 +30,9 @@
 
 - significant work on the manual/documentation to bring things up to speed with latest engine revisions.
 
-- applyImpulse, applyForce, and applyTorque all work when an object isn't part of a world...before, an object had to be added to a world before the apply*() functions did anything.
+- applyImpulse, applyForce, and applyTorque all work when an object isn't part of a world...before, an object had to be added to a world before the apply*() functions did anything
+
+- much nicer system for printing notifications/warnings, throwing errors, and asserting, all in an effort to aid debugging and allow people to report issues a lot more easily...by overridding interfaces, the user can route console printing commands any way they like...conditional compilation is also added so that debug stuff has less of a footprint in release modes
 
 
 1/13/2011  (version 0.6)

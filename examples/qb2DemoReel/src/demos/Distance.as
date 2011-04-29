@@ -5,7 +5,7 @@ package demos
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.Graphics;
-	import QuickB2.debugging.qb2_debugDrawSettings;
+	import QuickB2.debugging.drawing.qb2_debugDrawSettings;
 	import QuickB2.objects.tangibles.qb2Body;
 	import QuickB2.stock.qb2SoftPoly;
 	import QuickB2.stock.qb2Stock;
